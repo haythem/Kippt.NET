@@ -16,6 +16,7 @@
  */
 
 using System;
+using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 
@@ -44,15 +45,13 @@ namespace Kippt
         /// </summary>
         /// 
         /// <param name="baseUri">Input uri.</param>
-        /// <param name="parameters">Dictionnary of^parameters to add.</param>
+        /// <param name="parameters">Dictionnary of parameters to add.</param>
         public static Uri AddParametersToUri(Uri baseUri, Dictionary<string, object> parameters)
         {
             StringBuilder sb = new StringBuilder(baseUri.ToString());
 
-            foreach (KeyValuePair<string, object> pair in parameters)
-            {
-                sb.AppendFormat("&{0}={1}", pair.Key, pair.Value);
-            }
+            sb.Append("?");
+            sb.Append(string.Join("&", parameters.Select(p => string.Format("{0}={1}", p.Key, p.Value.ToString()))));
 
             return new Uri(sb.ToString());
         }
