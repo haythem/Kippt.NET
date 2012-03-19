@@ -1,0 +1,35 @@
+<Project ToolsVersion="4.0" DefaultTargets="Start" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+		<Configuration Condition="$(Configuration) == ''">Debug</Configuration>
+		<ProjectRoot>$(MSBuildProjectDirectory)\..\Source</ProjectRoot>
+		<OutputDirectory>$(ProjectRoot)</OutputDirectory>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<MajorVersion>1</MajorVersion>
+		<MinorVersion>0</MinorVersion>
+		<Version>$(MajorVersion).$(MinorVersion).0</Version>
+  	</PropertyGroup>
+	
+	<Target Name="Start" DependsOnTargets="Build; BuildPackages">
+	</Target>
+	
+	<Target Name="Build">
+		<MSBuild Projects="$(ProjectRoot)\Kippt.sln" Targets="Build" Properties="BuildPackage=true;PackageOutputDir=$(ArtifactsDir);Configuration=$(Configuration)" />
+    </Target>
+	
+	<Target Name="BuildPackages">
+		<ItemGroup>
+			<Projects Include="$(ProjectRoot)\Kippt\Kippt.csproj" />
+			<Projects Include="$(ProjectRoot)\Kippt.Silverlight\Kippt.Silverlight.csproj" />
+			<Projects Include="$(ProjectRoot)\Kippt.WindowsPhone\Kippt.WindowsPhone.csproj" />
+		</ItemGroup>
+		
+		<MSBuild Projects="%(Projects.Identity)" Targets="Build" Properties="BuildPackage=true;Version=$(Version);PackageOutputDir=$(OutputDirectory);Configuration=$(Configuration)" />
+		
+		<!-- Only build WP7 and Silverlight projects if SDK's avaliable -->
+		<MSBuild Projects="$(ProjectRoot)\Kippt.WindowsPhone\Kippt.WindowsPhone.csproj" Targets="Build" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\')" Properties="BuildPackage=true;Version=$(Version);PackageOutputDir=$(OutputDirectory);Configuration=$(Configuration)" />
+	
+		<MSBuild Projects="$(ProjectRoot)\Kippt.Silverlight\Kippt.Silverlight.csproj" Targets="Build" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Silverlight\v4.0')" Properties="BuildPackage=true;Version=$(Version);PackageOutputDir=$(OutputDirectory);Configuration=$(Configuration)" />
+	</Target>
+</Project>
