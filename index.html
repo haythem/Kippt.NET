@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+
+		<title>Haythem/Kippt.NET @ GitHub</title>
+		
+		<!-- StyleSheets -->
+		<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+		<link type="text/css" rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+		<link type="text/css" rel="stylesheet" href="css/prettify.css">
+	</head>
+	<body onload="prettyPrint()" data-spy="scroll">
+		<a href="https://github.com/Haythem/Kippt.NET"><img style="position: absolute; top: 40px; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+		<div class="navbar navbar-fixed-top" id="topbar">
+                <div class="navbar-inner">
+                    <div class="container">
+                        <a class="brand" href="/">Kippt.NET</a>
+                        <ul class="nav">
+                            <li><a href="#authentication">Authentication</a></li>
+                            <li><a href="#lists">Lists</a></li>
+							<li><a href="#clips">Clips</a></li>
+							<li><a href="#silverlight">Silverlight & Windows Phone</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+		<div class="container">
+			<br /><br /><br />
+			<div class="hero-unit">
+				<h1>Kippt.NET</h1>
+				<p>Kippt.NET is a library written in C# for consuming APIs of <a href="https://kippt.com" target="_blank">kippt.com</a> bookmarking application.</p>
+				<div class="download pull-right">
+					<a href="https://github.com/Haythem/Kippt.NET/zipball/master">
+						<img border="0" width="90" src="https://github.com/images/modules/download/zip.png">
+					</a>
+					<a href="https://github.com/Haythem/Kippt.NET/tarball/master">
+						<img border="0" width="90" src="https://github.com/images/modules/download/tar.png">
+					</a>
+				</div>
+				<br /><br />
+			</div>
+			<section id="authentication">
+			<div class="page-header">
+				<h1>Authentication</h1>
+			</div>
+				<div class="row">
+					<div class="span6">
+						<h2>KipptSession</h2>
+						<p>
+							KipptSession is an object used to encapsulate user credentials.
+							Credentials are the username and the token key.
+							Token can be found <a href="https://kippt.com/api" target="_blank">here</a> (Authentication Required).
+						</p>
+						<pre class="prettyprint linenums">var session = new KipptSession("username", "token");</pre>
+					</div>
+					<div class="span6">
+						<h2>KipptClient</h2>
+						<p>
+							KipptClient is the base class that provides rights for sending and receiving data by affecting the username and the token to every request's head made to the server.
+							All classes are inherited from this one.
+							To execute any api request, we need to instanciate this class.
+							The instance must be overloaded with a <code>KipptSession</code> instance ( to provide user credentials ).
+						</p>
+						<pre class="prettyprint linenums">var client = new KipptClient(session);</pre>
+					</div>
+				</div>
+			</section>
+			<section id="lists">
+				<div class="page-header">
+					<h1>Lists</h1>
+				</div>
+				<div class="row">
+					<div class="span6">
+						<h2>GetLists</h2>
+						<p>
+							<code>GetLists</code> returns a <code>KipptListCollection</code> object.
+							The returned object contains :
+							<ul>
+								<li><code>Meta</code> : Contains pagination information ( Limit, Offset, TotalCount ).</li>
+								<li><code>Lists</code> : List of KipptList objects.</li>
+							</ul>
+						</p>
+						<pre class="prettyprint linenums">var collection = KipptList.GetLists();
+// Loop over your lists
+foreach (var list in collection.Lists)
+{
+	Console.WriteLine(list.Title);
+}</pre>
+						<h2>GetList</h2>
+						<p>
+							<code>GetList</code> returns a <code>KipptList</code> object by its id.
+							<pre class="prettyprint linenums">var list = KipptList.GetList(12345);</pre>
+							If not found, a <code>KipptException</code> will be raised.
+						</p>
+					</div>
+					<div class="span6">
+						<h2>Pagination</h2>
+						<p>
+							The <code>GetLists</code> method returns 20 results by defaults giving the user the ability of pagination
+							and reducing the amount of data sent by the server.
+							To override the default value of returned results :
+						</p>
+						<pre class="prettyprint linenums">// Get 50 lists
+var collection = KipptList.GetLists(50);</pre>
+						<p>
+							For more flexibility, we can add an offset to get a specific range (a page) of lists :
+							<pre class="prettyprint linenums">// KipptList.GetLists(limit, offset);
+var collection = KipptList.GetLists(10, 5);</pre>
+						</p>
+					</div>
+				</div>
+			</section>
+			<section id="clips">
+				<div class="page-header">
+					<h1>Clips</h1>
+				</div>
+				<div class="row">
+					<div class="span6">
+						<h2>GetClips</h2>
+						<p>
+							<code>GetClips</code> returns a <code>KipptClipCollection</code> object.
+							The returned object contains :
+							<ul>
+								<li><code>Meta</code> : Contains pagination information ( Limit, Offset, TotalCount ).</li>
+								<li><code>Clips</code> : List of KipptClip objects.</li>
+							</ul>
+						</p>
+						<pre class="prettyprint linenums">var collection = KipptClip.GetClips();
+// Loop over your clips
+foreach (var clip in collection.Clips)
+{
+	Console.WriteLine(clip.Title);
+}</pre>
+						<p>
+							To get the clips associated to a specific list :
+						</p>
+						<pre class="prettyprint linenums">// KipptClip.GetClips(listId)
+var collection = KipptClip.GetClips(12345);</pre>
+						<p>If not found, a <code>KipptException</code> will be raised.</p>
+						<h2>GetClip</h2>
+						<p>
+							The <code>GetClips</code> method returns a <code>KipptClip</code> object by its id.
+						</p>
+						<pre class="prettyprint linenums">var clip = KipptClip.GetClip(12345);</pre>
+						<p>If not found, a <code>KipptException</code> will be raised.</p>
+						<h2>Search</h2>
+						<p>
+							The <code>Search</code> method returns a list of clips matching the input query.
+						</p>
+						<pre class="prettyprint linenums">var results = KipptClip.Search("Kippt.NET");</pre>
+					</div>
+					<div class="span6">
+						<h2>Pagination</h2>
+						<p>
+							The same concept of pagination in lists is applied in clips for the <code>GetClips()</code>, <code>GetClips(listId)</code> and <code>Search(query)</code> methods.
+						</p>
+						<pre class="prettyprint linenums">// Get 50 clips
+var collection = KipptClip.GetClips(50);
+// KipptClip.GetClips(limit, offset);
+var pageOfClips = KipptClip.GetClips(10, 5);</pre>
+						<pre class="prettyprint linenums">// KipptClip.GetClips(listId, limit)
+var listedClips = KipptClip.GetClips(123, 50);
+// KipptClip.GetClips(listId, limit, offset)
+var pageOfListedClips = KipptClip.GetClips(123, 10, 5);</pre>
+						<pre class="prettyprint linenums">// KipptClip.Search(query, limit)
+var searchResults = KipptClip.Search("Kippt.NET", 50);
+// KipptClip.Search(query, limit, offset)
+var pageOfSearchResults = KipptClip.Search("Kippt.NET", 10, 5);</pre>
+					</div>
+				</div>
+			</section>
+			<section id="silverlight">
+				<div class="page-header">
+					<h1>Silverlight & Windows Phone</h1>
+				</div>
+				<div class="row">
+					<div class="span12">
+						<p>
+							For Silverlight and Windows Phone, the requests and responses are made asynchronously.
+							So, the communication to the server is event based.
+							To get the list of KipptLists :
+						</p>
+						<pre class="prettyprint linenums">var session = new KipptSession("username", "token");
+var client = new KipptClient(session);
+
+KipptClient.OnOperationExecuted += new KipptClient.EventHandler(KipptClient_OperationExecuted);
+
+KipptClip.GetLists();</pre>
+						<p>
+							The event handler method :
+						</p>
+						<pre class="prettyprint linenums">void KipptClient_OperationExecuted(object sender, KipptEventArgs e)
+{
+	if (e.Error == null) // No exception was raised
+	{
+		var collection = (KipptListCollection)e.Result;
+	}
+}</pre>
+					</div>
+				</div>
+			</section>
+			<footer>
+				<hr />
+				<p>Copyright &copy 2012 Haythem Tlili</p>
+			</footer>
+		</div>
+		<!-- Scripts -->
+		<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/prettify.js"></script>
+	</body>
+</html>
