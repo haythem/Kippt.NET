@@ -34,6 +34,7 @@ namespace Kippt
         /// </summary>
         private static Dictionary<ApiCommand, Uri> Endpoints = new Dictionary<ApiCommand, Uri>()
         {
+            { ApiCommand.Account,   new Uri("https://kippt.com/api/account/") },
             { ApiCommand.Lists,     new Uri("https://kippt.com/api/lists/") },
             { ApiCommand.List,      new Uri("https://kippt.com/api/lists/{0}/") },
             { ApiCommand.Clips,     new Uri("https://kippt.com/api/clips/") },
@@ -169,6 +170,9 @@ namespace Kippt
 
             try
             {
+                // Raise the event
+                OnOperationExecuting(args);
+
                 HttpWebResponse response = (HttpWebResponse)httpRequest.EndGetResponse(result);
 
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))

@@ -61,6 +61,18 @@ namespace Kippt
 
         private delegate void EventHandler(object sender, KipptEventArgs e);
 
+        private static event EventHandler OperationExecuting;
+        /// <summary>
+        /// Occurs before executing a query.
+        /// </summary>
+        /// 
+        /// <param name="e">Event argument (null).</param>
+        protected static void OnOperationExecuting(KipptEventArgs e)
+        {
+            if (OperationExecuting != null)
+                OperationExecuting(null, e);
+        }
+
         private static event EventHandler OperationExecuted;
         /// <summary>
         /// Occurs when a query has successfully been executed.

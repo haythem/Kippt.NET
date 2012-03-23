@@ -24,6 +24,8 @@ namespace Kippt
     /// </summary>
     enum ApiCommand
     {
+        Account,
+
         Lists,
 
         List,

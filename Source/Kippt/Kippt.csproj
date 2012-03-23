@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiCommand.cs" />
+    <Compile Include="KipptAccount.cs" />
     <Compile Include="KipptClip.cs" />
     <Compile Include="HttpMethod.cs" />
     <Compile Include="JsonSerializer.cs" />
