@@ -59,27 +59,27 @@ namespace Kippt
 
         #region Events
 
-        private delegate void EventHandler(object sender, KipptEventArgs e);
+        public delegate void EventHandler(object sender, KipptEventArgs e);
 
-        private static event EventHandler OperationExecuting;
+        public static event EventHandler OperationExecuting;
         /// <summary>
         /// Occurs before executing a query.
         /// </summary>
         /// 
         /// <param name="e">Event argument (null).</param>
-        protected static void OnOperationExecuting(KipptEventArgs e)
+        public static void OnOperationExecuting(KipptEventArgs e)
         {
             if (OperationExecuting != null)
                 OperationExecuting(null, e);
         }
 
-        private static event EventHandler OperationExecuted;
+        public static event EventHandler OperationExecuted;
         /// <summary>
         /// Occurs when a query has successfully been executed.
         /// </summary>
         /// 
         /// <param name="e">Event arguments.</param>
-        protected static void OnOperationExecuted(KipptEventArgs e)
+        public static void OnOperationExecuted(KipptEventArgs e)
         {
             if (OperationExecuted != null)
                 OperationExecuted(null, e);
