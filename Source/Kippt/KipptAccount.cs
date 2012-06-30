@@ -29,6 +29,12 @@ namespace Kippt
         #region Properties
 
         /// <summary>
+        /// Gets the user id.
+        /// </summary>
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
+
+        /// <summary>
         /// Gets the username.
         /// </summary>
         [DataMember(Name = "username")]
@@ -40,6 +46,24 @@ namespace Kippt
         [DataMember(Name = "api_token")]
         public string ApiToken { get; set; }
 
+        /// <summary>
+        /// Gets or sets the avatar url (Gravatar).
+        /// </summary>
+        [DataMember(Name = "avatar_url")]
+        public string Avatar { get; set; }
+
+        /// <summary>
+        /// Gets the lists relative uri.
+        /// </summary>
+        [DataMember(Name = "lists")]
+        public string Lists { get; set; }
+
+        /// <summary>
+        /// Gets the resource uri.
+        /// </summary>
+        [DataMember(Name = "resource_uri")]
+        public string ResourceUri { get; set; }
+
         #endregion Properties
 
         #region Shared Methods
@@ -47,7 +71,7 @@ namespace Kippt
         /// <summary>
         /// Returns the username and api token of the logged in user.
         /// </summary>
-        public static KipptAccount MyAccount()
+        public static KipptAccount Authenticate()
         {
             return KipptApi.ApiAction<KipptAccount>(ApiCommand.Account, HttpMethod.Get);
         }
