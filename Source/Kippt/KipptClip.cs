@@ -51,6 +51,18 @@ namespace Kippt
         [DataMember(Name = "notes")]
         public string Notes { get; set; }
 
+        /// <summary>
+        /// Gets or sets whether a clip is starred or not.
+        /// </summary>
+        [DataMember(Name = "is_starred")]
+        public bool IsStarred { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether a clip is set to be read later or not.
+        /// </summary>
+        [DataMember(Name = "is_read_later")]
+        public bool IsReadLater { get; set; }
+
         [DataMember(Name = "created")]
         public int dateCreated;
         /// <summary>
