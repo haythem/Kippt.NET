@@ -16,6 +16,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Kippt
@@ -71,9 +72,14 @@ namespace Kippt
         /// <summary>
         /// Returns the username and api token of the logged in user.
         /// </summary>
-        public static KipptAccount Authenticate()
+        public static KipptAccount Authenticate(string userName, string password)
         {
-            return KipptApi.ApiAction<KipptAccount>(ApiCommand.Account, HttpMethod.Get);
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+
+            parameters.Add("UserName", userName);
+            parameters.Add("Password", password);
+
+            return KipptApi.ApiAction<KipptAccount>(ApiCommand.Account, HttpMethod.Get, parameters);
         }
 
         #endregion Shared Methods

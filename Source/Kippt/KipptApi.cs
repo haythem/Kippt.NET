@@ -137,8 +137,15 @@ namespace Kippt
 
             request.Method = method.ToString().ToUpper();
 
-            request.Headers["X-Kippt-Username"] = Session.UserName;
-            request.Headers["X-Kippt-API-Token"] = Session.Token;
+            if (uri == Endpoints[ApiCommand.Account] && parameters != null)
+            {
+                request.Credentials = new NetworkCredential(parameters["UserName"].ToString(), parameters["Password"].ToString());
+            }
+            else
+            {
+                request.Headers["X-Kippt-Username"] = Session.UserName;
+                request.Headers["X-Kippt-API-Token"] = Session.Token;
+            }
 
             if (method == HttpMethod.Post || method == HttpMethod.Put)
             {
@@ -221,8 +228,15 @@ namespace Kippt
             request.Method = method.ToString().ToUpper();
             request.ContentType = "application/json";
 
-            request.Headers.Add("X-Kippt-Username", Session.UserName);
-            request.Headers.Add("X-Kippt-API-Token", Session.Token);
+            if (uri == Endpoints[ApiCommand.Account] && parameters != null)
+            {
+                request.Credentials = new NetworkCredential(parameters["UserName"].ToString(), parameters["Password"].ToString());
+            }
+            else
+            {
+                request.Headers.Add("X-Kippt-Username", Session.UserName);
+                request.Headers.Add("X-Kippt-API-Token", Session.Token);
+            }
 
             if (method == HttpMethod.Post || method == HttpMethod.Put)
             {
