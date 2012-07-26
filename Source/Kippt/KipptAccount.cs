@@ -48,6 +48,12 @@ namespace Kippt
         public string ApiToken { get; set; }
 
         /// <summary>
+        /// Gets the profile url.
+        /// </summary>
+        [DataMember(Name = "app_url")]
+        public string Profile { get; set; }
+
+        /// <summary>
         /// Gets or sets the avatar url (Gravatar).
         /// </summary>
         [DataMember(Name = "avatar_url")]

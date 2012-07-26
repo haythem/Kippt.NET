@@ -70,7 +70,7 @@ namespace Kippt
         /// </summary>
         public DateTime DateCreated
         {
-            get { return new DateTime(1970, 1, 1, 0, 0, 0, 0).AddMilliseconds(dateCreated * 1000L); }
+            get { return Utils.FromUnixTime(dateCreated); }
         }
 
         [DataMember(Name = "updated")]
@@ -80,7 +80,7 @@ namespace Kippt
         /// </summary>
         public DateTime DateUpdated
         {
-            get { return new DateTime(1970, 1, 1, 0, 0, 0, 0).AddMilliseconds(dateUpdated * 1000L); }
+            get { return Utils.FromUnixTime(dateUpdated); }
         }
 
         [DataMember(Name = "list")]

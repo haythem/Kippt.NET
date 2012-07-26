@@ -57,5 +57,31 @@ namespace Kippt
         }
 
         #endregion Uri
+
+        #region Date
+
+        /// <summary>
+        /// Converts a date to Unix time format.
+        /// </summary>
+        /// 
+        /// <seealso cref="http://en.wikipedia.org/wiki/Unix_time" />
+        /// 
+        /// <param name="date">Date to convert.</param>
+        public static int ToUnixTime(DateTime date)
+        {
+            return (date - new DateTime(1970, 1, 1, 0, 0, 0)).Milliseconds;
+        }
+
+        /// <summary>
+        /// Converts unix time format to a date.
+        /// </summary>
+        /// 
+        /// <param name="date">Unix time date.</param>
+        public static DateTime FromUnixTime(int date)
+        {
+            return new DateTime(1970, 1, 1, 0, 0, 0, 0).AddMilliseconds(date * 1000L);
+        }
+
+        #endregion Date
     }
 }
