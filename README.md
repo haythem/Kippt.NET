@@ -20,11 +20,11 @@
 
 ----------
 ## Synchronously ##
+
 `using (var client = new KipptClient("HaythemTlili", "SomeToken"))
 {
 	// Get user's lists
 	var lists = KipptList.GetLists(client);
-
 	// Print lists titles
 	foreach (var list in lists.Lists)
 	{
@@ -33,6 +33,7 @@
 }`
 
 ## Asynchronously ##
+
 `using (var client = new KipptClient("HaythemTlili", "SomeToken"))
 {
 	client.Completed += (s, e) =>
@@ -40,7 +41,6 @@
 		if (e.Error == null)
 		{
 			var lists = (KipptListCollection)e.Result;
-	
 			// Print lists titles
 			foreach (var list in lists.Lists)
 			{
@@ -48,7 +48,6 @@
 			}
 		}
 	}
-
 	// Get user's lists
 	KipptList.GetListsAsync(client);
 }`
