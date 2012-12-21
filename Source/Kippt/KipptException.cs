@@ -1,6 +1,9 @@
 ﻿/*
     Kippt.NET Library for consuming Kippt APIs.
-    Copyright (C) 2012 Haythem Tlili
+    Copyright (C) 2012-2013 Haythem Tlili
+    
+    Library : https://github.com/Haythem/Kippt.NET
+    Documentation : http://haythem.github.com/Kippt.NET/
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

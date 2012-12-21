@@ -3,6 +3,7 @@
 		<Configuration Condition="$(Configuration) == ''">Debug</Configuration>
 		<ProjectRoot>$(MSBuildProjectDirectory)\..\Source</ProjectRoot>
 		<OutputDirectory>$(ProjectRoot)</OutputDirectory>
+		<ArtifactsDir>$(ProjectRoot)\artifacts\$(Configuration)</ArtifactsDir>
 	</PropertyGroup>
 	
 	<PropertyGroup>

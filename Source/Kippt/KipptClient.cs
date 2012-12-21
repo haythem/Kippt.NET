@@ -1,6 +1,9 @@
 ﻿/*
     Kippt.NET Library for consuming Kippt APIs.
-    Copyright (C) 2012 Haythem Tlili
+    Copyright (C) 2012-2013 Haythem Tlili
+    
+    Library : https://github.com/Haythem/Kippt.NET
+    Documentation : http://haythem.github.com/Kippt.NET/
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -16,88 +19,106 @@
  */
 
 using System;
-using System.Runtime.Serialization;
+using System.Collections.Generic;
 
 namespace Kippt
 {
     /// <summary>
-    /// Provides rights for sending and receiving data.
+    /// Represents the base class used for executing api requests.
     /// </summary>
-    [DataContract(IsReference = false)]
-    public class KipptClient
+    public partial class KipptClient : IDisposable
     {
-        #region Private Methods
+        /// <summary>
+        /// Gets or sets username.
+        /// </summary>
+        public string UserName { get; set; }
 
         /// <summary>
-        /// Instance of <see cref="KipptSession"/> class used to execute queries.
+        /// Gets or sets api token.
         /// </summary>
-        protected static KipptSession Session { get; set; }
-
-        #endregion Private Methods
-
-        #region Constructors
+        public string ApiToken { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="KipptClient"/> class.
+        /// Represents the set of endpoints.
         /// </summary>
-        public KipptClient()
+        private Dictionary<ApiCommand, Uri> Endpoints = new Dictionary<ApiCommand, Uri>()
         {
-            Initialize();
+            { ApiCommand.Feed,          new Uri("https://kippt.com/api/feed/?include_data=list,user,via")},
+            { ApiCommand.Account,       new Uri("https://kippt.com/api/account/") },
+            { ApiCommand.User,          new Uri("https://kippt.com/api/users/{0}/") },
+            { ApiCommand.Lists,         new Uri("https://kippt.com/api/lists/") },
+            { ApiCommand.List,          new Uri("https://kippt.com/api/lists/{0}/") },
+            { ApiCommand.Clips,         new Uri("https://kippt.com/api/clips/?include_data=list,user,via") },
+            { ApiCommand.Clip,          new Uri("https://kippt.com/api/clips/{0}/?include_data=list,user,via") },
+            { ApiCommand.Search,        new Uri("https://kippt.com/api/search/clips/?include_data=list,user,via") },
+            { ApiCommand.Notifications, new Uri("https://kippt.com/api/notifications/?include_data=list,user,via") },
+            { ApiCommand.Logout,        new Uri("https://logout@kippt.com/api/account/") },
+        };
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KipptClient"/> class.
+        /// </summary>
+        public KipptClient() { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KipptClient"/> class.
+        /// </summary>
+        public KipptClient(string userName, string apiToken)
+        {
+            UserName = userName;
+            ApiToken = apiToken;
         }
 
-        /// <summary>
-        /// Initializes a new instance of <see cref="KipptClient"/> class.
-        /// </summary>
-        /// 
-        /// <param name="session">Authentication credentials.</param>
-        public KipptClient(KipptSession session)
+        ~KipptClient()
         {
-            Session = session;
+            Dispose(false);
         }
-
-        #endregion Constructors
 
         #region Events
 
-        public delegate void EventHandler(object sender, KipptEventArgs e);
-
-        public static event EventHandler OperationExecuting;
         /// <summary>
-        /// Occurs before executing a query.
+        /// Occurs when an api action is requested.
         /// </summary>
-        /// 
-        /// <param name="e">Event argument (null).</param>
-        public static void OnOperationExecuting(KipptEventArgs e)
+        public event EventHandler<KipptEventArgs> Started;
+
+        private void OnStarted(KipptEventArgs e)
         {
-            if (OperationExecuting != null)
-                OperationExecuting(null, e);
+            if (Started != null)
+            {
+                Started(null, e);
+            }
         }
 
-        public static event EventHandler OperationExecuted;
         /// <summary>
-        /// Occurs when a query has successfully been executed.
+        /// Occurs when an api action is completed.
         /// </summary>
-        /// 
-        /// <param name="e">Event arguments.</param>
-        public static void OnOperationExecuted(KipptEventArgs e)
+        public event EventHandler<KipptEventArgs> Completed;
+
+        private void OnCompleted(KipptEventArgs e)
         {
-            if (OperationExecuted != null)
-                OperationExecuted(null, e);
+            if (Completed != null)
+            {
+                Completed(null, e);
+            }
         }
 
-        #endregion
+        #endregion Events
 
-        #region Private Methods
+        #region IDisposable
 
-        /// <summary>
-        /// Check if the session is present.
-        /// </summary>
-        private void Initialize()
+        public void Dispose()
         {
-            if (Session == null)
-                throw new KipptException("Session is null !");
+            Dispose(true);
         }
 
-        #endregion Private Methods
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                GC.SuppressFinalize(this);
+            }
+        }
+
+        #endregion IDisposable
     }
 }

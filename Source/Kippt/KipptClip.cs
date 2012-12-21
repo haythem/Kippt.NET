@@ -1,6 +1,9 @@
 ﻿/*
     Kippt.NET Library for consuming Kippt APIs.
-    Copyright (C) 2012 Haythem Tlili
+    Copyright (C) 2012-2013 Haythem Tlili
+    
+    Library : https://github.com/Haythem/Kippt.NET
+    Documentation : http://haythem.github.com/Kippt.NET/
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -16,21 +19,19 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Kippt
 {
     /// <summary>
-    /// Clips are items stored to Kippt.
+    /// Clips are items stored to Kippt. If you create a new clip without defining the list, it will be saved to user's Inbox.
+    /// Title will be fetched automatically if it's not provided.
     /// </summary>
     [DataContract]
-    public class KipptClip
+    public partial class KipptClip
     {
-        #region Properties
-
         /// <summary>
-        /// Gets clip id.
+        /// Gets or sets clip id.
         /// </summary>
         [DataMember(Name = "id")]
         public int Id { get; set; }
@@ -38,10 +39,6 @@ namespace Kippt
         /// <summary>
         /// Gets or sets clip title.
         /// </summary>
-        /// 
-        /// <remarks>
-        /// Title will be fetched automatically if it's not provided.
-        /// </remarks>
         [DataMember(Name = "title")]
         public string Title { get; set; }
 
@@ -52,63 +49,10 @@ namespace Kippt
         public string Notes { get; set; }
 
         /// <summary>
-        /// Gets or sets whether a clip is starred or not.
-        /// </summary>
-        [DataMember(Name = "is_starred")]
-        public bool IsStarred { get; set; }
-
-        /// <summary>
-        /// Gets or sets whether a clip is set to be read later or not.
-        /// </summary>
-        [DataMember(Name = "is_read_later")]
-        public bool IsReadLater { get; set; }
-
-        [DataMember(Name = "created")]
-        public int dateCreated;
-        /// <summary>
-        /// Gets clip creation date.
-        /// </summary>
-        public DateTime DateCreated
-        {
-            get { return Utils.FromUnixTime(dateCreated); }
-        }
-
-        [DataMember(Name = "updated")]
-        public int dateUpdated;
-        /// <summary>
-        /// Gets clip update date.
-        /// </summary>
-        public DateTime DateUpdated
-        {
-            get { return Utils.FromUnixTime(dateUpdated); }
-        }
-
-        [DataMember(Name = "list")]
-        private string list;
-        /// <summary>
-        /// Gets or sets list id containing the clip.
-        /// </summary>
-        /// 
-        /// <remarks>
-        /// If the list is not defined, clip will be saved to user's Inbox.
-        /// </remarks>
-        public int List
-        {
-            get { return int.Parse(list.Substring(list.IndexOf("/api/lists/"), list.Length - list.IndexOf("/api/lists/"))); }
-            set { list = string.Format("/api/lists/{0}/", value); }
-        }
-        
-        /// <summary>
         /// Gets or sets clip url.
         /// </summary>
         [DataMember(Name = "url")]
-        public Uri Url { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "resource_uri")]
-        public string ResourceUri { get; set; }
+        public string Url { get; set; }
 
         /// <summary>
         /// Gets clip url domain.
@@ -116,199 +60,104 @@ namespace Kippt
         [DataMember(Name = "url_domain")]
         public string UrlDomain { get; set; }
 
-        #endregion Properties
-
-        #region Public Methods
+        /// <summary>
+        /// Gets clip favicon url.
+        /// </summary>
+        [DataMember(Name = "favicon_url")]
+        public string FavIconUrl { get; set; }
 
         /// <summary>
-        /// Creates a clip.
+        /// Gets or sets whether the clip is marked for read later or not.
         /// </summary>
-        public void Create()
+        [DataMember(Name = "is_read_later")]
+        public bool IsReadLater { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the clip is starred or not.
+        /// </summary>
+        [DataMember(Name = "is_starred")]
+        public bool IsStarred { get; set; }
+
+        /// <summary>
+        /// Gets clip likes.
+        /// </summary>
+        [DataMember(Name = "likes")]
+        public KipptLikeCollection Likes { get; set; }
+
+        /// <summary>
+        /// Gets clip comments.
+        /// </summary>
+        [DataMember(Name = "comments")]
+        public KipptCommentCollection Comments { get; set; }
+
+        /// <summary>
+        /// Gets clip saves.
+        /// </summary>
+        [DataMember(Name = "saves")]
+        public KipptSaveCollection Saves { get; set; }
+
+        /// <summary>
+        /// Gets clip owner.
+        /// </summary>
+        [DataMember(Name = "user")]
+        public KipptAccount User { get; set; }
+
+        /// <summary>
+        /// Gets clip list relative uri.
+        /// </summary>
+        [DataMember(Name = "list")]
+        public KipptList List { get; set; }
+
+        /// <summary>
+        /// Gets clip article.
+        /// </summary>
+        [DataMember(Name = "article")]
+        public string Article { get; set; }
+
+        /// <summary>
+        /// Gets clip original owner.
+        /// </summary>
+        [DataMember(Name = "via")]
+        public KipptAccount Via { get; set; }
+
+        /// <summary>
+        /// Gets clip creation date (Unix Time).
+        /// </summary>
+        [DataMember(Name = "created")]
+        public long Created { get; set; }
+
+        /// <summary>
+        /// Gets clip creation date (Universal Time).
+        /// </summary>
+        public DateTime DateCreated
         {
-            KipptApi.ApiAction<KipptClip>(ApiCommand.Clips, HttpMethod.Post, JsonSerializer.Serialize<KipptClip>(this));
+            get { return Utils.ToUniversalTime(Created); }
         }
 
         /// <summary>
-        /// Updates a list.
+        /// Gets clip update date (Unix Time).
         /// </summary>
-        /// 
-        /// <remarks>
-        /// Properties that can be updated :
-        ///     * Title
-        ///     * Notes
-        ///     * List
-        ///     * Url
-        /// </remarks>
-        public void Update()
+        [DataMember(Name = "updated")]
+        public long Updated { get; set; }
+
+        /// <summary>
+        /// Gets clip update date (Universal Time).
+        /// </summary>
+        public DateTime DateUpdated
         {
-            KipptApi.ApiAction<KipptClip>(ApiCommand.Clip, HttpMethod.Put, JsonSerializer.Serialize<KipptClip>(this), this.Id);
+            get { return Utils.ToUniversalTime(Updated); }
         }
 
         /// <summary>
-        /// Deletes a clip.
+        /// Gets clip relative url.
         /// </summary>
-        public void Delete()
-        {
-            KipptApi.ApiAction<KipptClip>(ApiCommand.Clip, HttpMethod.Delete, this.Id);
-        }
-
-        #endregion Public Methods
-
-        #region Shared Methods
+        [DataMember(Name = "app_url")]
+        public string RelativeUrl { get; set; }
 
         /// <summary>
-        /// Returns a list of clips.
+        /// Gets clip resource uri.
         /// </summary>
-        /// 
-        /// <remarks>
-        /// Results are paginated.
-        /// The default number of returned clips is 20.
-        /// Pagination information are stored in the Meta property of <see cref="KipptListCollection"/> class.
-        /// </remarks>
-        public static KipptClipCollection GetClips()
-        {
-            return KipptApi.ApiAction<KipptClipCollection>(ApiCommand.Clips, HttpMethod.Get);
-        }
-
-        /// <summary>
-        /// Returns a specific number of lists.
-        /// </summary>
-        /// 
-        /// <param name="limit">Number of clips.</param>
-        public static KipptClipCollection GetClips(int limit)
-        {
-            return GetClips(limit, 0);
-        }
-
-        /// <summary>
-        /// Returns a range of clips.
-        /// </summary>
-        /// 
-        /// <param name="limit">End index.</param>
-        /// <param name="offset">Start index.</param>
-        public static KipptClipCollection GetClips(int limit, int offset)
-        {
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-
-            parameters.Add("limit", limit);
-
-            if (offset > 0) parameters.Add("offset", offset);
-
-            return KipptApi.ApiAction<KipptClipCollection>(ApiCommand.Clips, HttpMethod.Get, parameters);
-        }
-
-        /// <summary>
-        /// Returns the clips associated to a specific list.
-        /// </summary>
-        /// 
-        /// <remarks>
-        /// Results are paginated.
-        /// The default number of returned clips is 20.
-        /// Pagination information are stored in the Meta property of <see cref="KipptListCollection"/> class.
-        /// </remarks>
-        /// 
-        /// <param name="listId">List id.</param>
-        public static KipptClipCollection GetClipsByList(int listId)
-        {
-            return GetClipsByList(listId, 0, 0);
-        }
-
-        /// <summary>
-        /// Returns a specific number of clips associated to a list.
-        /// </summary>
-        /// 
-        /// <param name="listId">List id.</param>
-        /// <param name="limit">Number of clips.</param>
-        public static KipptClipCollection GetClipsByList(int listId, int limit)
-        {
-            return GetClipsByList(listId, limit, 0);
-        }
-
-        /// <summary>
-        /// Returns a range of clips associated to a list.
-        /// </summary>
-        /// 
-        /// <param name="listId">List id.</param>
-        /// <param name="limit">End index.</param>
-        /// <param name="offset">Start index.</param>
-        public static KipptClipCollection GetClipsByList(int listId, int limit, int offset)
-        {
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-
-            parameters.Add("list", listId);
-
-            if (limit > 0) parameters.Add("limit", limit);
-            if (offset > 0) parameters.Add("offset", offset);
-
-            return KipptApi.ApiAction<KipptClipCollection>(ApiCommand.Clips, HttpMethod.Get, parameters);
-        }
-
-        /// <summary>
-        /// Returns a clip by its id.
-        /// </summary>
-        /// 
-        /// <remarks>
-        /// Results are paginated.
-        /// The default number of returned clips is 20.
-        /// Pagination information are stored in the Meta property of <see cref="KipptListCollection"/> class.
-        /// </remarks>
-        /// 
-        /// <param name="id">Clip id.</param>
-        public static KipptClip GetClip(int id)
-        {
-            return KipptApi.ApiAction<KipptClip>(ApiCommand.Clip, HttpMethod.Get, id);
-        }
-
-        /// <summary>
-        /// Returns a query filtered list of clips.
-        /// </summary>
-        /// 
-        /// <remarks>
-        /// Results are paginated.
-        /// The default number of returned clips is 20.
-        /// Pagination information are stored in the Meta property of <see cref="KipptListCollection"/> class.
-        /// </remarks>
-        /// 
-        /// <param name="query">Query.</param>
-        public static KipptClipCollection Search(string query)
-        {
-            return Search(query, 0, 0);
-        }
-
-        /// <summary>
-        /// Returns a query filtered list of clips.
-        /// </summary>
-        /// 
-        /// <remarks>
-        /// Results are limited.
-        /// </remarks>
-        /// 
-        /// <param name="query">Query.</param>
-        /// <param name="limit">Number of clips.</param>
-        public static KipptClipCollection Search(string query, int limit)
-        {
-            return Search(query, limit, 0);
-        }
-
-        /// <summary>
-        /// Returns a query filtered list of clips.
-        /// </summary>
-        /// 
-        /// <param name="query">Query.</param>
-        /// <param name="limit">End index.</param>
-        /// <param name="offset">Start index.</param>
-        public static KipptClipCollection Search(string query, int limit, int offset)
-        {
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-
-            parameters.Add("q", query);
-
-            if (limit > 0) parameters.Add("limit", limit);
-            if (offset > 0) parameters.Add("offset", offset);
-
-            return KipptApi.ApiAction<KipptClipCollection>(ApiCommand.Search, HttpMethod.Get, parameters);
-        }
-
-        #endregion Shared Methods
+        [DataMember(Name = "resource_uri")]
+        public string ResourceUri { get; set; }
     }
 }

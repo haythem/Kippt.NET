@@ -1,6 +1,9 @@
 ﻿/*
     Kippt.NET Library for consuming Kippt APIs.
-    Copyright (C) 2012 Haythem Tlili
+    Copyright (C) 2012-2013 Haythem Tlili
+    
+    Library : https://github.com/Haythem/Kippt.NET
+    Documentation : http://haythem.github.com/Kippt.NET/
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -16,7 +19,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Kippt
@@ -25,69 +27,48 @@ namespace Kippt
     /// Simple endpoint to check if user is authenticated correctly and get account data.
     /// </summary>
     [DataContract]
-    public class KipptAccount
+    public partial class KipptAccount
     {
-        #region Properties
-
         /// <summary>
-        /// Gets the user id.
+        /// Gets or sets account id.
         /// </summary>
         [DataMember(Name = "id")]
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets the username.
+        /// Gets or sets username.
         /// </summary>
         [DataMember(Name = "username")]
         public string UserName { get; set; }
 
         /// <summary>
-        /// Gets the api token.
+        /// Gets or sets api token.
         /// </summary>
         [DataMember(Name = "api_token")]
         public string ApiToken { get; set; }
 
         /// <summary>
-        /// Gets the profile url.
-        /// </summary>
-        [DataMember(Name = "app_url")]
-        public string Profile { get; set; }
-
-        /// <summary>
-        /// Gets or sets the avatar url (Gravatar).
+        /// Gets or sets avatar url (Gravatar).
         /// </summary>
         [DataMember(Name = "avatar_url")]
         public string Avatar { get; set; }
 
         /// <summary>
-        /// Gets the lists relative uri.
+        /// Gets or sets lists relative url.
         /// </summary>
         [DataMember(Name = "lists")]
         public string Lists { get; set; }
 
         /// <summary>
-        /// Gets the resource uri.
+        /// Gets or sets relative url.
+        /// </summary>
+        [DataMember(Name = "app_url")]
+        public string RelativeUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets resource uri.
         /// </summary>
         [DataMember(Name = "resource_uri")]
         public string ResourceUri { get; set; }
-
-        #endregion Properties
-
-        #region Shared Methods
-
-        /// <summary>
-        /// Returns the username and api token of the logged in user.
-        /// </summary>
-        public static KipptAccount Authenticate(string userName, string password)
-        {
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-
-            parameters.Add("UserName", userName);
-            parameters.Add("Password", password);
-
-            return KipptApi.ApiAction<KipptAccount>(ApiCommand.Account, HttpMethod.Get, parameters);
-        }
-
-        #endregion Shared Methods
     }
 }

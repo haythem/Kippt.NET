@@ -19,20 +19,27 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Kippt
 {
     /// <summary>
-    /// Enumerates the set of common methods for HTTP protocol.
+    /// Represents saves of a clip.
     /// </summary>
-    public enum HttpMethod
+    [DataContract]
+    public class KipptSaveCollection
     {
-        Get,
+        /// <summary>
+        /// Gets saves count.
+        /// </summary>
+        [DataMember(Name = "count")]
+        public int Count { get; set; }
 
-        Post,
-
-        Put,
-
-        Delete
+        /// <summary>
+        /// Gets the users who saved a clip.
+        /// </summary>
+        [DataMember(Name = "data")]
+        public List<KipptAccount> Saves { get; set; }
     }
 }

@@ -19,20 +19,27 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Kippt
 {
     /// <summary>
-    /// Enumerates the set of common methods for HTTP protocol.
+    /// Represents a collection of <see cref="KipptComment"/> entity.
     /// </summary>
-    public enum HttpMethod
+    [DataContract]
+    public class KipptCommentCollection
     {
-        Get,
+        /// <summary>
+        /// Gets comments count.
+        /// </summary>
+        [DataMember(Name = "count")]
+        public int Count { get; set; }
 
-        Post,
-
-        Put,
-
-        Delete
+        /// <summary>
+        /// Gets comments.
+        /// </summary>
+        [DataMember(Name = "data")]
+        public List<KipptComment> Comments { get; set; }
     }
 }

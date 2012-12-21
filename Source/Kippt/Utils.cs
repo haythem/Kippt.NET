@@ -1,6 +1,9 @@
 ﻿/*
     Kippt.NET Library for consuming Kippt APIs.
-    Copyright (C) 2012 Haythem Tlili
+    Copyright (C) 2012-2013 Haythem Tlili
+    
+    Library : https://github.com/Haythem/Kippt.NET
+    Documentation : http://haythem.github.com/Kippt.NET/
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -25,7 +28,7 @@ namespace Kippt
     /// <summary>
     /// Common helpers.
     /// </summary>
-    class Utils
+    public class Utils
     {
         #region Uri
 
@@ -46,11 +49,19 @@ namespace Kippt
         /// 
         /// <param name="baseUri">Input uri.</param>
         /// <param name="parameters">Dictionnary of parameters to add.</param>
-        public static Uri AddParametersToUri(Uri baseUri, Dictionary<string, object> parameters)
+        public static Uri UriBuilder(Uri baseUri, Dictionary<string, object> parameters)
         {
             StringBuilder sb = new StringBuilder(baseUri.ToString());
 
-            sb.Append("?");
+            if (!sb.ToString().Contains("?"))
+            {
+                sb.Append("?");
+            }
+            else
+            {
+                sb.Append("&");
+            }
+
             sb.Append(string.Join("&", parameters.Select(p => string.Format("{0}={1}", p.Key, p.Value.ToString()))));
 
             return new Uri(sb.ToString());
@@ -67,19 +78,19 @@ namespace Kippt
         /// <seealso cref="http://en.wikipedia.org/wiki/Unix_time" />
         /// 
         /// <param name="date">Date to convert.</param>
-        public static int ToUnixTime(DateTime date)
+        public static long ToUnixTime(DateTime date)
         {
-            return (date - new DateTime(1970, 1, 1, 0, 0, 0)).Milliseconds;
+            return (long)(date - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
         }
 
         /// <summary>
-        /// Converts unix time format to a date.
+        /// Converts unix time to universal time.
         /// </summary>
         /// 
         /// <param name="date">Unix time date.</param>
-        public static DateTime FromUnixTime(int date)
+        public static DateTime ToUniversalTime(long date)
         {
-            return new DateTime(1970, 1, 1, 0, 0, 0, 0).AddMilliseconds(date * 1000L);
+            return new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(date);
         }
 
         #endregion Date

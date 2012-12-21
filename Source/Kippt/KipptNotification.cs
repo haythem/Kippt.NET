@@ -24,39 +24,53 @@ using System.Runtime.Serialization;
 namespace Kippt
 {
     /// <summary>
-    /// Pagination informations.
+    /// Represents a kippt notification entity.
     /// </summary>
     [DataContract]
-    public class KipptMeta
+    public partial class KipptNotification
     {
         /// <summary>
-        /// Gets the query limit.
+        /// Gets notification id.
         /// </summary>
-        [DataMember(Name = "limit")]
-        public int Limit { get; internal set; }
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
 
         /// <summary>
-        /// Gets the query offset.
+        /// Gets whether a notification has been seen or not.
         /// </summary>
-        [DataMember(Name = "offset")]
-        public int Offset { get; set; }
+        [DataMember(Name = "is_seen")]
+        public bool IsSeen { get; set; }
 
         /// <summary>
-        /// Gets the next page resource uri.
+        /// Gets notification clip.
         /// </summary>
-        [DataMember(Name = "next")]
-        public string Next { get; internal set; }
+        [DataMember(Name = "clip")]
+        public KipptClip Clip { get; set; }
 
         /// <summary>
-        /// Gets the previous page resource uri.
+        /// Gets notification user.
         /// </summary>
-        [DataMember(Name = "previous")]
-        public string Previous { get; set; }
+        [DataMember(Name = "item")]
+        public KipptAccount User { get; set; }
 
         /// <summary>
-        /// Gets the total count of results affected by the query.
+        /// Gets creation date.
         /// </summary>
-        [DataMember(Name = "total_count")]
-        public int TotalCount { get; set; }
+        [DataMember(Name = "created")]
+        public long Created { get; set; }
+
+        public DateTime DateCreated { get; set; }
+
+        /// <summary>
+        /// Gets item relative url.
+        /// </summary>
+        [DataMember(Name = "item_url")]
+        public string ItemUrl { get; set; }
+
+        /// <summary>
+        /// Gets notification type.
+        /// </summary>
+        [DataMember(Name = "type")]
+        public string Type { get; set; }
     }
 }

@@ -1,54 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.20506</ProductVersion>
+    <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FC0D743A-2F72-473D-BAB9-39AA08F608B5}</ProjectGuid>
-    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectGuid>{21FF0731-83C7-459B-A232-8D8509C4548F}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kippt.WindowsPhone</RootNamespace>
-    <AssemblyName>Kippt.WindowsPhone</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
-    <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
-    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
-    <SilverlightApplication>false</SilverlightApplication>
-    <ValidateXaml>true</ValidateXaml>
-    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <RootNamespace>Kippt.Mono</RootNamespace>
+    <AssemblyName>Kippt.Mono</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>Bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
-    <NoStdLib>true</NoStdLib>
-    <NoConfig>true</NoConfig>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>Bin\Release</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
-    <NoStdLib>true</NoStdLib>
-    <NoConfig>true</NoConfig>
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Servicemodel.Web" />
-    <Reference Include="System.Windows" />
-    <Reference Include="system" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Net" />
-    <Reference Include="mscorlib.extensions" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Kippt\ApiCommand.cs">
@@ -63,17 +47,26 @@
     <Compile Include="..\Kippt\KipptAccount.cs">
       <Link>KipptAccount.cs</Link>
     </Compile>
+    <Compile Include="..\Kippt\KipptAccount.Sync.cs">
+      <Link>KipptAccount.Sync.cs</Link>
+    </Compile>
     <Compile Include="..\Kippt\KipptClient.Async.cs">
       <Link>KipptClient.Async.cs</Link>
     </Compile>
     <Compile Include="..\Kippt\KipptClient.cs">
       <Link>KipptClient.cs</Link>
     </Compile>
+    <Compile Include="..\Kippt\KipptClient.Sync.cs">
+      <Link>KipptClient.Sync.cs</Link>
+    </Compile>
     <Compile Include="..\Kippt\KipptClip.Async.cs">
       <Link>KipptClip.Async.cs</Link>
     </Compile>
     <Compile Include="..\Kippt\KipptClip.cs">
       <Link>KipptClip.cs</Link>
+    </Compile>
+    <Compile Include="..\Kippt\KipptClip.Sync.cs">
+      <Link>KipptClip.Sync.cs</Link>
     </Compile>
     <Compile Include="..\Kippt\KipptClipCollection.cs">
       <Link>KipptClipCollection.cs</Link>
@@ -99,6 +92,9 @@
     <Compile Include="..\Kippt\KipptList.cs">
       <Link>KipptList.cs</Link>
     </Compile>
+    <Compile Include="..\Kippt\KipptList.Sync.cs">
+      <Link>KipptList.Sync.cs</Link>
+    </Compile>
     <Compile Include="..\Kippt\KipptListCollection.cs">
       <Link>KipptListCollection.cs</Link>
     </Compile>
@@ -111,6 +107,9 @@
     <Compile Include="..\Kippt\KipptNotification.cs">
       <Link>KipptNotification.cs</Link>
     </Compile>
+    <Compile Include="..\Kippt\KipptNotification.Sync.cs">
+      <Link>KipptNotification.Sync.cs</Link>
+    </Compile>
     <Compile Include="..\Kippt\KipptNotificationCollection.cs">
       <Link>KipptNotificationCollection.cs</Link>
     </Compile>
@@ -120,16 +119,7 @@
     <Compile Include="..\Kippt\Utils.cs">
       <Link>Utils.cs</Link>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
-  <ProjectExtensions />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

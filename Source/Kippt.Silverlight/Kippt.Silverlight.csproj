@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7424C378-5F9B-4C5A-8190-92C25A28C915}</ProjectGuid>
+    <ProjectGuid>{3E0806FE-578E-4007-AEB4-32579F9AB753}</ProjectGuid>
     <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -49,10 +49,12 @@
     <Reference Include="mscorlib" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Kippt\ApiCommand.cs">
@@ -61,17 +63,20 @@
     <Compile Include="..\Kippt\HttpMethod.cs">
       <Link>HttpMethod.cs</Link>
     </Compile>
-    <Compile Include="..\Kippt\JsonSerializer.cs">
-      <Link>JsonSerializer.cs</Link>
+    <Compile Include="..\Kippt\JsonHelper.cs">
+      <Link>JsonHelper.cs</Link>
     </Compile>
     <Compile Include="..\Kippt\KipptAccount.cs">
       <Link>KipptAccount.cs</Link>
     </Compile>
-    <Compile Include="..\Kippt\KipptApi.cs">
-      <Link>KipptApi.cs</Link>
+    <Compile Include="..\Kippt\KipptClient.Async.cs">
+      <Link>KipptClient.Async.cs</Link>
     </Compile>
     <Compile Include="..\Kippt\KipptClient.cs">
       <Link>KipptClient.cs</Link>
+    </Compile>
+    <Compile Include="..\Kippt\KipptClip.Async.cs">
+      <Link>KipptClip.Async.cs</Link>
     </Compile>
     <Compile Include="..\Kippt\KipptClip.cs">
       <Link>KipptClip.cs</Link>
@@ -79,11 +84,23 @@
     <Compile Include="..\Kippt\KipptClipCollection.cs">
       <Link>KipptClipCollection.cs</Link>
     </Compile>
+    <Compile Include="..\Kippt\KipptComment.cs">
+      <Link>KipptComment.cs</Link>
+    </Compile>
+    <Compile Include="..\Kippt\KipptCommentCollection.cs">
+      <Link>KipptCommentCollection.cs</Link>
+    </Compile>
     <Compile Include="..\Kippt\KipptEventArgs.cs">
       <Link>KipptEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\Kippt\KipptException.cs">
       <Link>KipptException.cs</Link>
+    </Compile>
+    <Compile Include="..\Kippt\KipptLikeCollection.cs">
+      <Link>KipptLikeCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Kippt\KipptList.Async.cs">
+      <Link>KipptList.Async.cs</Link>
     </Compile>
     <Compile Include="..\Kippt\KipptList.cs">
       <Link>KipptList.cs</Link>
@@ -94,8 +111,17 @@
     <Compile Include="..\Kippt\KipptMeta.cs">
       <Link>KipptMeta.cs</Link>
     </Compile>
-    <Compile Include="..\Kippt\KipptSession.cs">
-      <Link>KipptSession.cs</Link>
+    <Compile Include="..\Kippt\KipptNotification.Async.cs">
+      <Link>KipptNotification.Async.cs</Link>
+    </Compile>
+    <Compile Include="..\Kippt\KipptNotification.cs">
+      <Link>KipptNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\Kippt\KipptNotificationCollection.cs">
+      <Link>KipptNotificationCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Kippt\KipptSaveCollection.cs">
+      <Link>KipptSaveCollection.cs</Link>
     </Compile>
     <Compile Include="..\Kippt\Utils.cs">
       <Link>Utils.cs</Link>
@@ -108,7 +134,6 @@
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkReference="2d95826e-ee1f-4417-ae71-2d492f25cc6e" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

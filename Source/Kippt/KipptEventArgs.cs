@@ -1,6 +1,9 @@
 ﻿/*
     Kippt.NET Library for consuming Kippt APIs.
-    Copyright (C) 2012 Haythem Tlili
+    Copyright (C) 2012-2013 Haythem Tlili
+    
+    Library : https://github.com/Haythem/Kippt.NET
+    Documentation : http://haythem.github.com/Kippt.NET/
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -16,6 +19,7 @@
  */
 
 using System;
+using System.Net;
 
 namespace Kippt
 {
@@ -32,9 +36,23 @@ namespace Kippt
         public object Result { get; set; }
 
         /// <summary>
+        /// Raw response received from the server.
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// Default Format: Json.
+        /// </remarks>
+        public string RawResponse { get; set; }
+
+        /// <summary>
         /// Gets or sets the exception indicating if any errors were presented during the processing of a request.
         /// </summary>
         public Exception Error { get; set; }
+
+        /// <summary>
+        /// Gets or sets http status code returned by the server.
+        /// </summary>
+        public HttpStatusCode HttpStatusCode { get; set; }
 
         #endregion Properties
 

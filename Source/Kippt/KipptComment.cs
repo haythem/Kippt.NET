@@ -19,27 +19,46 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Kippt
 {
     /// <summary>
-    /// Represents a collection of <see cref="KipptClip"/> entity.
+    /// Represents a comment entity.
     /// </summary>
     [DataContract]
-    public class KipptClipCollection
+    public class KipptComment
     {
         /// <summary>
-        /// Gets pagination informations.
+        /// Gets or sets comment id.
         /// </summary>
-        [DataMember(Name = "meta")]
-        public KipptMeta Meta { get; set; }
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
 
         /// <summary>
-        /// Gets the list of <see cref="KipptClip"/> objects.
+        /// Gets or sets comment body.
         /// </summary>
-        [DataMember(Name = "objects")]
-        public List<KipptClip> Clips { get; set; }
+        [DataMember(Name = "body")]
+        public string Body { get; set; }
+
+        /// <summary>
+        /// Gets or sets comment creation date.
+        /// </summary>
+        [DataMember(Name = "created")]
+        public long Created { get; set; }
+
+        public DateTime DateCreated { get; set; }
+
+        /// <summary>
+        /// Gets or sets comment user.
+        /// </summary>
+        [DataMember(Name = "user")]
+        public KipptAccount User { get; set; }
+
+        /// <summary>
+        /// Gets or sets resource uri.
+        /// </summary>
+        [DataMember(Name = "resource_uri")]
+        public string ResourceUri { get; set; }
     }
 }

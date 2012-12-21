@@ -1,6 +1,9 @@
 ﻿/*
     Kippt.NET Library for consuming Kippt APIs.
-    Copyright (C) 2012 Haythem Tlili
+    Copyright (C) 2012-2013 Haythem Tlili
+    
+    Library : https://github.com/Haythem/Kippt.NET
+    Documentation : http://haythem.github.com/Kippt.NET/
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -22,16 +25,20 @@ using System.Runtime.Serialization;
 namespace Kippt
 {
     /// <summary>
-    /// Lists are used to organize and categorize clips. Clips will have a list associated to them.
-    /// Every user has two lists predefined, inbox and read-later, which can't be deleted.
+    /// Lists are used to organize and categorize clips.
+    /// Clips will have a list associated to them.
+    /// Every user has one list predefined, inbox, which can't be deleted.
     /// </summary>
+    /// 
+    /// <remarks>
+    /// Accepted Scopes :
+    ///     * User
+    /// </remarks>
     [DataContract]
-    public class KipptList : KipptClient
+    public partial class KipptList
     {
-        #region Properties
-
         /// <summary>
-        /// Gets list id.
+        /// Gets or sets list id.
         /// </summary>
         [DataMember(Name = "id")]
         public int Id { get; set; }
@@ -43,140 +50,88 @@ namespace Kippt
         public string Title { get; set; }
 
         /// <summary>
-        /// Gets list slug.
+        /// Gets or sets list description.
+        /// </summary>
+        [DataMember(Name = "description")]
+        public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether a list is private or not.
+        /// </summary>
+        [DataMember(Name = "is_private")]
+        public bool IsPrivate { get; set; }
+
+        /// <summary>
+        /// Gets or sets list owner.
+        /// </summary>
+        [DataMember(Name = "user")]
+        public string UserUri { get; set; }
+
+        /// <summary>
+        /// Gets or sets clip user id.
+        /// </summary>
+        public int UserId
+        {
+            get { return int.Parse(UserUri.Substring(UserUri.IndexOf("/api/users/"), UserUri.Length - UserUri.IndexOf("/api/users/"))); }
+            set { UserUri = string.Format("/api/users/{0}/", value); }
+        }
+
+        /// <summary>
+        /// Gets or sets list collaborators.
+        /// </summary>
+        [DataMember(Name = "collaborators")]
+        public List<KipptAccount> Collaborators { get; set; }
+
+        /// <summary>
+        /// Gets list creation date (Unix Time).
+        /// </summary>
+        [DataMember(Name = "created")]
+        public long Created { get; set; }
+
+        /// <summary>
+        /// Gets list creation date (Universal Time).
+        /// </summary>
+        public DateTime DateCreated
+        {
+            get { return Utils.ToUniversalTime(Created); }
+        }
+
+        /// <summary>
+        /// Gets clip update date (Unix Time).
+        /// </summary>
+        [DataMember(Name = "updated")]
+        public long Updated { get; set; }
+
+        /// <summary>
+        /// Gets clip update date (Universal Time).
+        /// </summary>
+        public DateTime DateUpdated
+        {
+            get { return Utils.ToUniversalTime(Updated); }
+        }
+
+        /// <summary>
+        /// Gets or sets list slug.
         /// </summary>
         [DataMember(Name = "slug")]
         public string Slug { get; set; }
 
-        [DataMember(Name = "created")]
-        public int dateCreated;
         /// <summary>
-        /// Gets the creation date of a list.
+        /// Gets or sets list relative url.
         /// </summary>
-        public DateTime DateCreated
-        {
-            get { return Utils.FromUnixTime(dateCreated); }
-        }
-
-        [DataMember(Name = "updated")]
-        public int dateUpdated;
-        /// <summary>
-        /// Gets the update date of a list.
-        /// </summary>
-        public DateTime DateUpdated
-        {
-            get { return Utils.FromUnixTime(dateUpdated); }
-        }
+        [DataMember(Name = "app_url")]
+        public string RelativeUrl { get; set; }
 
         /// <summary>
-        /// Gets the permalink of a list.
+        /// Gets or sets list resource uri.
         /// </summary>
         [DataMember(Name = "resource_uri")]
         public string ResourceUri { get; set; }
 
         /// <summary>
-        /// Gets the rss uri of a list.
+        /// Gets or sets list rss url.
         /// </summary>
         [DataMember(Name = "rss_url")]
-        public Uri Rss { get; set; }
-
-        #endregion Properties
-
-        #region Public Methods
-
-        /// <summary>
-        /// Returns a list of clips associated to the list instance.
-        /// </summary>
-        /// 
-        /// <remarks>
-        /// Results are paginated.
-        /// The default number of returned clips is 20.
-        /// Pagination information are stored in the Meta property of <see cref="KipptListCollection"/> class.
-        /// </remarks>
-        public KipptClipCollection GetClips()
-        {
-            return KipptClip.GetClipsByList(this.Id, 100000);
-        }
-
-        /// <summary>
-        /// Creates a kippt list.
-        /// </summary>
-        public void Create()
-        {
-            KipptApi.ApiAction<KipptList>(ApiCommand.Lists, HttpMethod.Post, JsonSerializer.Serialize<KipptList>(this));
-        }
-
-        /// <summary>
-        /// Updates a kippt list.
-        /// </summary>
-        public void Update()
-        {
-            KipptApi.ApiAction<KipptList>(ApiCommand.List, HttpMethod.Put, JsonSerializer.Serialize<KipptList>(this), this.Id);
-        }
-
-        /// <summary>
-        /// Deletes a kippt list.
-        /// </summary>
-        public void Delete()
-        {
-            KipptApi.ApiAction<KipptList>(ApiCommand.List, HttpMethod.Delete, this.Id);
-        }
-
-        #endregion Public Methods
-
-        #region Shared Methods
-
-        /// <summary>
-        /// Returns a list of kippt lists.
-        /// </summary>
-        /// 
-        /// <remarks>
-        /// Results are paginated.
-        /// The default number of returned clips is 20.
-        /// Pagination information are stored in the Meta property of <see cref="KipptListCollection"/> class.
-        /// </remarks>
-        public static KipptListCollection GetLists()
-        {
-            return KipptApi.ApiAction<KipptListCollection>(ApiCommand.Lists, HttpMethod.Get);
-        }
-
-        /// <summary>
-        /// Returns a specific number of kippt lists.
-        /// </summary>
-        /// 
-        /// <param name="limit">Number of lists.</param>
-        public static KipptListCollection GetLists(int limit)
-        {
-            return GetLists(limit, 0);
-        }
-
-        /// <summary>
-        /// Returns a range of kippt lists.
-        /// </summary>
-        /// 
-        /// <param name="limit">End index.</param>
-        /// <param name="offset">Start index.</param>
-        public static KipptListCollection GetLists(int limit, int offset)
-        {
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-
-            parameters.Add("limit", limit);
-
-            if (offset > 0) parameters.Add("offset", offset);
-
-            return KipptApi.ApiAction<KipptListCollection>(ApiCommand.Lists, HttpMethod.Get, parameters);
-        }
-
-        /// <summary>
-        /// Returns a kippt list by its id.
-        /// </summary>
-        /// 
-        /// <param name="id">List id.</param>
-        public static KipptList GetList(int id)
-        {
-            return KipptApi.ApiAction<KipptList>(ApiCommand.List, HttpMethod.Get, id);
-        }
-
-        #endregion Shared Methods
+        public string RssUrl { get; set; }
     }
 }

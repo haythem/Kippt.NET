@@ -5,18 +5,17 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D650743A-EF24-4982-B6BF-00C51584CFB2}</ProjectGuid>
+    <ProjectGuid>{03F7BD3C-BED5-434A-82B1-8276F014DB33}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kippt</RootNamespace>
-    <AssemblyName>Kippt</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>Kippt.Controls</RootNamespace>
+    <AssemblyName>Kippt.Controls</AssemblyName>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -24,7 +23,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>True</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -33,7 +32,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,35 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiCommand.cs" />
-    <Compile Include="HttpMethod.cs" />
-    <Compile Include="JsonHelper.cs" />
-    <Compile Include="KipptAccount.cs" />
-    <Compile Include="KipptAccount.Sync.cs" />
-    <Compile Include="KipptClient.Async.cs" />
-    <Compile Include="KipptClient.cs" />
-    <Compile Include="KipptClient.Sync.cs" />
-    <Compile Include="KipptClip.Async.cs" />
-    <Compile Include="KipptClip.cs" />
-    <Compile Include="KipptClip.Sync.cs" />
-    <Compile Include="KipptClipCollection.cs" />
-    <Compile Include="KipptComment.cs" />
-    <Compile Include="KipptCommentCollection.cs" />
-    <Compile Include="KipptEventArgs.cs" />
-    <Compile Include="KipptException.cs" />
-    <Compile Include="KipptLikeCollection.cs" />
-    <Compile Include="KipptList.Async.cs" />
-    <Compile Include="KipptList.cs" />
-    <Compile Include="KipptList.Sync.cs" />
-    <Compile Include="KipptListCollection.cs" />
-    <Compile Include="KipptMeta.cs" />
-    <Compile Include="KipptNotification.Async.cs" />
-    <Compile Include="KipptNotification.cs" />
-    <Compile Include="KipptNotification.Sync.cs" />
-    <Compile Include="KipptNotificationCollection.cs" />
-    <Compile Include="KipptSaveCollection.cs" />
+    <Compile Include="KipptButton.cs" />
+    <Compile Include="Mvc\KipptControls.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

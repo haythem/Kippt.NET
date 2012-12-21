@@ -19,20 +19,27 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Kippt
 {
     /// <summary>
-    /// Enumerates the set of common methods for HTTP protocol.
+    /// Represents a collection of <see cref="KipptNotification"/> entity.
     /// </summary>
-    public enum HttpMethod
+    [DataContract]
+    public class KipptNotificationCollection
     {
-        Get,
+        /// <summary>
+        /// Gets pagination informations.
+        /// </summary>
+        [DataMember(Name = "meta")]
+        public KipptMeta Meta { get; set; }
 
-        Post,
-
-        Put,
-
-        Delete
+        /// <summary>
+        /// Gets the list of <see cref="KipptNotification"/> objects.
+        /// </summary>
+        [DataMember(Name = "objects")]
+        public List<KipptNotification> Notifications { get; set; }
     }
 }
