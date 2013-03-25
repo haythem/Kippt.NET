@@ -33,7 +33,7 @@ namespace Kippt
         /// Gets the query limit.
         /// </summary>
         [DataMember(Name = "limit")]
-        public int Limit { get; internal set; }
+        public int Limit { get; set; }
 
         /// <summary>
         /// Gets the query offset.
@@ -45,7 +45,7 @@ namespace Kippt
         /// Gets the next page resource uri.
         /// </summary>
         [DataMember(Name = "next")]
-        public string Next { get; internal set; }
+        public string Next { get; set; }
 
         /// <summary>
         /// Gets the previous page resource uri.
@@ -56,7 +56,7 @@ namespace Kippt
         /// <summary>
         /// Gets the total count of results affected by the query.
         /// </summary>
-        [DataMember(Name = "total_count")]
+        [DataMember(Name = "total_count", IsRequired = false)]
         public int TotalCount { get; set; }
     }
 }

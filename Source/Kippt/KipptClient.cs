@@ -43,16 +43,33 @@ namespace Kippt
         /// </summary>
         private Dictionary<ApiCommand, Uri> Endpoints = new Dictionary<ApiCommand, Uri>()
         {
-            { ApiCommand.Feed,          new Uri("https://kippt.com/api/feed/?include_data=list,user,via")},
-            { ApiCommand.Account,       new Uri("https://kippt.com/api/account/") },
-            { ApiCommand.User,          new Uri("https://kippt.com/api/users/{0}/") },
-            { ApiCommand.Lists,         new Uri("https://kippt.com/api/lists/") },
-            { ApiCommand.List,          new Uri("https://kippt.com/api/lists/{0}/") },
-            { ApiCommand.Clips,         new Uri("https://kippt.com/api/clips/?include_data=list,user,via") },
-            { ApiCommand.Clip,          new Uri("https://kippt.com/api/clips/{0}/?include_data=list,user,via") },
-            { ApiCommand.Search,        new Uri("https://kippt.com/api/search/clips/?include_data=list,user,via") },
-            { ApiCommand.Notifications, new Uri("https://kippt.com/api/notifications/?include_data=list,user,via") },
-            { ApiCommand.Logout,        new Uri("https://logout@kippt.com/api/account/") },
+            { ApiCommand.Account,           new Uri("https://kippt.com/api/account/") },
+            { ApiCommand.User,              new Uri("https://kippt.com/api/users/{0}/") },
+            { ApiCommand.UserFollowings,    new Uri("https://kippt.com/api/users/{0}/following/") },
+            { ApiCommand.UserFollowers,     new Uri("https://kippt.com/api/users/{0}/followers/") },
+            { ApiCommand.UserRelationship,  new Uri("https://kippt.com/api/users/{0}/relationship/") },
+            { ApiCommand.UserLists,         new Uri("https://kippt.com/api/users/{0}/lists/") },
+            { ApiCommand.UserList,          new Uri("https://kippt.com/api/users/{0}/lists/{1}/") },
+            { ApiCommand.UserClips,         new Uri("https://kippt.com/api/users/{0}/clips/?include_data=list,via") },
+            { ApiCommand.UserFavoriteClips, new Uri("https://kippt.com/api/users/{0}/clips/favorites/?include_data=list,via") },
+            { ApiCommand.UserLikeClips,     new Uri("https://kippt.com/api/users/{0}/clips/likes/?include_data=list,via") },
+            { ApiCommand.UserSearch,        new Uri("https://kippt.com/api/users/search/") },
+            { ApiCommand.Lists,             new Uri("https://kippt.com/api/lists/") },
+            { ApiCommand.List,              new Uri("https://kippt.com/api/lists/{0}/") },
+            { ApiCommand.ListFollowings,    new Uri("https://kippt.com/api/lists/{0}/following") },
+            { ApiCommand.ListRelationship,  new Uri("https://kippt.com/api/lists/{0}/relationship/") },
+            { ApiCommand.ListClips,         new Uri("https://kippt.com/api/lists/{0}/clips?include_data=list,via") },
+            { ApiCommand.ListSearch,        new Uri("https://kippt.com/api/lists/search/") },
+            { ApiCommand.Clips,             new Uri("https://kippt.com/api/clips/?include_data=list,via") },
+            { ApiCommand.ClipFavorites,     new Uri("https://kippt.com/api/clips/favorite/?include_data=list,via") },
+            { ApiCommand.Clip,              new Uri("https://kippt.com/api/clips/{0}/?include_data=list,via") },
+            { ApiCommand.FavoriteClip,      new Uri("https://kippt.com/api/clips/favorite/?include_data=list,via") },
+            { ApiCommand.ClipComments,      new Uri("https://kippt.com/api/clips/{0}/comments/") },
+            { ApiCommand.DeleteComment,     new Uri("https://kippt.com/api/clips/{0}/comments/{1}") },
+            { ApiCommand.ClipLikes,         new Uri("https://kippt.com/api/clips/{0}/likes") },
+            { ApiCommand.ClipSearch,        new Uri("https://kippt.com/api/clips/search/?include_data=list,via") },
+            { ApiCommand.Feed,              new Uri("https://kippt.com/api/clips/feed/?include_data=list,via") },
+            { ApiCommand.Notifications,     new Uri("https://kippt.com/api/notifications/?include_data=list,clip") },
         };
 
         /// <summary>
@@ -85,7 +102,7 @@ namespace Kippt
         {
             if (Started != null)
             {
-                Started(null, e);
+                Started(this, e);
             }
         }
 
@@ -98,7 +115,7 @@ namespace Kippt
         {
             if (Completed != null)
             {
-                Completed(null, e);
+                Completed(this, e);
             }
         }
 

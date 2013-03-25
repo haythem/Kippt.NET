@@ -19,43 +19,26 @@
 # Getting Started #
 
 ----------
-## Synchronously ##
-`using (var client = new KipptClient("HaythemTlili", "SomeToken"))
-{
-	// Get user's lists
-	var lists = KipptList.GetLists(client);
+`var client = new KipptClient("Username", "ApiToken");  
+var list = new KipptList();  
+list.Title = "Kippt.NET";`
 
-	// Print lists titles
-	foreach (var list in lists.Lists)
-	{
-		Console.WriteLine(list.Title);
-	}
-}`
+## Synchronously ##
+
+`list = list.Create(client);`
 
 ## Asynchronously ##
-`using (var client = new KipptClient("HaythemTlili", "SomeToken"))
-{
-	client.Completed += (s, e) =>
-	{
-		if (e.Error == null)
-		{
-			var lists = (KipptListCollection)e.Result;
-	
-			// Print lists titles
-			foreach (var list in lists.Lists)
-			{
-				Console.WriteLine(list.Title);
-			}
-		}
-	}
 
-	// Get user's lists
-	KipptList.GetListsAsync(client);
-}`
+`client.Completed += (s, e) => { var list = (KipptList)e.Result; };  
+list.CreateAsync(client);`
 
 # ChangeLog #
 
 ----------
+
+## v1.0 ##
+- Initial release
+
 ## v1.5 ##
 - Support for Windows Phone 7.5
 - Support for WinRT
@@ -68,6 +51,12 @@
 - Fixed events logic
 - Optimized KipptEventArgs
 - Better exception handling
+
+## v1.6.x ##
+- Updated api endpoints
+- Fixed large data deserialization
+- Added synchronus and asynchronus helpers for account, users, lists, clips and notifications
+- Liking, commenting and favoriting clips
 
 # Read More #
 

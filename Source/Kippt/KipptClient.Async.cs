@@ -123,6 +123,8 @@ namespace Kippt
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
 
+            request.Method = method.ToString().ToUpper();
+
             // Authentication Process
             if (uri.AbsolutePath == Endpoints[ApiCommand.Account].AbsolutePath && parameters != null)
             {
@@ -191,7 +193,7 @@ namespace Kippt
             }
             catch (Exception e)
             {
-                args.Error = new KipptException(e.Message);                
+                args.Error = new KipptException(e.Message);
             }
 
             // Raise Completed Event

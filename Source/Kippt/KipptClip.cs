@@ -19,6 +19,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Kippt
@@ -73,10 +74,16 @@ namespace Kippt
         public bool IsReadLater { get; set; }
 
         /// <summary>
-        /// Gets or sets whether the clip is starred or not.
+        /// Gets or sets whether the clip is favorited or not.
         /// </summary>
         [DataMember(Name = "is_starred")]
         public bool IsStarred { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the clip is favorited or not.
+        /// </summary>
+        [DataMember(Name = "is_favorite")]
+        public bool IsFavorite { get; set; }
 
         /// <summary>
         /// Gets clip likes.
@@ -100,7 +107,7 @@ namespace Kippt
         /// Gets clip owner.
         /// </summary>
         [DataMember(Name = "user")]
-        public KipptAccount User { get; set; }
+        public KipptUser User { get; set; }
 
         /// <summary>
         /// Gets clip list relative uri.
@@ -112,13 +119,32 @@ namespace Kippt
         /// Gets clip article.
         /// </summary>
         [DataMember(Name = "article")]
-        public string Article { get; set; }
+        public KipptArticle Article { get; set; }
+
+        /// <summary>
+        /// Gets media associated with the clip.
+        /// </summary>
+        [DataMember(Name = "media")]
+        public KipptMedia Media { get; set; }
 
         /// <summary>
         /// Gets clip original owner.
         /// </summary>
         [DataMember(Name = "via")]
-        public KipptAccount Via { get; set; }
+        public string Via { get; set; }
+
+        /// <summary>
+        /// Gets clip type.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///     * Link
+        ///     * Note
+        ///     * Image
+        ///     * File
+        /// </remarks>
+        [DataMember(Name = "type")]
+        public string Type { get; set; }
 
         /// <summary>
         /// Gets clip creation date (Unix Time).
@@ -160,4 +186,225 @@ namespace Kippt
         [DataMember(Name = "resource_uri")]
         public string ResourceUri { get; set; }
     }
+
+    /// <summary>
+    /// Represents a collection of <see cref="KipptClip"/> entity.
+    /// </summary>
+    [DataContract]
+    public class KipptClipCollection
+    {
+        /// <summary>
+        /// Gets pagination informations.
+        /// </summary>
+        [DataMember(Name = "meta")]
+        public KipptMeta Meta { get; set; }
+
+        /// <summary>
+        /// Gets the list of <see cref="KipptClip"/> objects.
+        /// </summary>
+        [DataMember(Name = "objects")]
+        public List<KipptClip> Clips { get; set; }
+    }
+
+    #region Comments, Likes and Saves
+
+    /// <summary>
+    /// Represents a comment entity.
+    /// </summary>
+    [DataContract]
+    public class KipptComment
+    {
+        /// <summary>
+        /// Gets or sets comment id.
+        /// </summary>
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets comment body.
+        /// </summary>
+        [DataMember(Name = "body")]
+        public string Body { get; set; }
+
+        /// <summary>
+        /// Gets or sets comment creation date.
+        /// </summary>
+        [DataMember(Name = "created")]
+        public long Created { get; set; }
+
+        public DateTime DateCreated { get; set; }
+
+        /// <summary>
+        /// Gets or sets comment user.
+        /// </summary>
+        [DataMember(Name = "user")]
+        public KipptUser User { get; set; }
+
+        /// <summary>
+        /// Gets or sets resource uri.
+        /// </summary>
+        [DataMember(Name = "resource_uri")]
+        public string ResourceUri { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a collection of <see cref="KipptComment"/> entity.
+    /// </summary>
+    [DataContract]
+    public class KipptCommentCollection
+    {
+        /// <summary>
+        /// Gets comments count.
+        /// </summary>
+        [DataMember(Name = "count")]
+        public int Count { get; set; }
+
+        /// <summary>
+        /// Gets comments.
+        /// </summary>
+        [DataMember(Name = "data")]
+        public List<KipptComment> Comments { get; set; }
+    }
+
+    /// <summary>
+    /// Represents likes of a clip.
+    /// </summary>
+    [DataContract]
+    public class KipptLikeCollection
+    {
+        /// <summary>
+        /// Gets likes count.
+        /// </summary>
+        [DataMember(Name = "count")]
+        public int Count { get; set; }
+
+        /// <summary>
+        /// Gets the users who liked a clip.
+        /// </summary>
+        [DataMember(Name = "data", IsRequired = false)]
+        public List<KipptUser> Likes { get; set; }
+    }
+
+    /// <summary>
+    /// Represents saves of a clip.
+    /// </summary>
+    [DataContract]
+    public class KipptSaveCollection
+    {
+        /// <summary>
+        /// Gets saves count.
+        /// </summary>
+        [DataMember(Name = "count")]
+        public int Count { get; set; }
+
+        /// <summary>
+        /// Gets the users who saved a clip.
+        /// </summary>
+        [DataMember(Name = "data")]
+        public List<KipptUser> Saves { get; set; }
+    }
+
+    /// <summary>
+    /// Represents kippt article.
+    /// </summary>
+    [DataContract]
+    public class KipptArticle
+    {
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
+
+        [DataMember(Name = "title")]
+        public string Title { get; set; }
+
+        [DataMember(Name = "url")]
+        public string Url { get; set; }
+
+        [DataMember(Name = "updated")]
+        public long Updated { get; set; }
+
+        public DateTime DateUpdated
+        {
+            get { return Utils.ToUniversalTime(Updated); }
+        }
+
+        [DataMember(Name = "resource_uri")]
+        public string ResourceUri { get; set; }
+
+        [DataMember(Name = "html")]
+        public string Html { get; set; }
+    }
+
+    #endregion
+
+    #region Media
+
+    [DataContract]
+    public class KipptMedia
+    {
+        [DataMember(Name = "title")]
+        public string Title { get; set; }
+
+        [DataMember(Name = "description")]
+        public string Description { get; set; }
+
+        [DataMember(Name = "provider")]
+        public KipptMediaProvider Provider { get; set; }
+
+        [DataMember(Name = "images", IsRequired = false)]
+        public KipptImageCollection Images { get; set; }
+
+        [DataMember(Name = "embed", IsRequired = false)]
+        public KipptEmbed Embed { get; set; }
+
+        [DataMember(Name = "type")]
+        public string Type { get; set; }
+    }
+
+    [DataContract]
+    public class KipptImage
+    {
+        [DataMember(Name = "url")]
+        public string Url { get; set; }
+
+        [DataMember(Name = "width")]
+        public int Width { get; set; }
+
+        [DataMember(Name = "height")]
+        public int Height { get; set; }
+    }
+
+    [DataContract]
+    public class KipptImageCollection
+    {
+        [DataMember(Name = "original")]
+        public KipptImage Original { get; set; }
+
+        [DataMember(Name = "tile")]
+        public KipptImage Tile { get; set; }
+    }
+
+    [DataContract]
+    public class KipptMediaProvider
+    {
+        [DataMember(Name = "url")]
+        public string Url { get; set; }
+
+        [DataMember(Name = "name")]
+        public string Name { get; set; }
+    }
+
+    [DataContract]
+    public class KipptEmbed
+    {
+        [DataMember(Name = "html")]
+        public string Html { get; set; }
+
+        [DataMember(Name = "width")]
+        public int? Width { get; set; }
+
+        [DataMember(Name = "height")]
+        public int? Height { get; set; }
+    }
+
+    #endregion
 }

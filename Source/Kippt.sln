@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kippt", "Kippt\Kippt.csproj", "{D650743A-EF24-4982-B6BF-00C51584CFB2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kippt.WindowsPhone", "Kippt.WindowsPhone\Kippt.WindowsPhone.csproj", "{FC0D743A-2F72-473D-BAB9-39AA08F608B5}"
@@ -12,6 +12,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kippt.Mono", "Kippt.Mono\Kippt.Mono.csproj", "{21FF0731-83C7-459B-A232-8D8509C4548F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kippt.WinRT", "Kippt.WinRT\Kippt.WinRT.csproj", "{21A4BFE2-3248-47D1-8759-4B9020F38869}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kippt.ConsoleTests", "Kippt.ConsoleTests\Kippt.ConsoleTests.csproj", "{E76C2A0D-66B2-46A2-B1F6-9AB46B00CFFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kippt.Tests", "Kippt.Tests\Kippt.Tests.csproj", "{9D3E22A5-8A69-4861-A635-C5A0EAC61AA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,6 +119,34 @@ Global
 		{21A4BFE2-3248-47D1-8759-4B9020F38869}.Release|x64.Build.0 = Release|x64
 		{21A4BFE2-3248-47D1-8759-4B9020F38869}.Release|x86.ActiveCfg = Release|x86
 		{21A4BFE2-3248-47D1-8759-4B9020F38869}.Release|x86.Build.0 = Release|x86
+		{E76C2A0D-66B2-46A2-B1F6-9AB46B00CFFE}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{E76C2A0D-66B2-46A2-B1F6-9AB46B00CFFE}.Debug|ARM.ActiveCfg = Debug|x86
+		{E76C2A0D-66B2-46A2-B1F6-9AB46B00CFFE}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{E76C2A0D-66B2-46A2-B1F6-9AB46B00CFFE}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{E76C2A0D-66B2-46A2-B1F6-9AB46B00CFFE}.Debug|x64.ActiveCfg = Debug|x86
+		{E76C2A0D-66B2-46A2-B1F6-9AB46B00CFFE}.Debug|x86.ActiveCfg = Debug|x86
+		{E76C2A0D-66B2-46A2-B1F6-9AB46B00CFFE}.Debug|x86.Build.0 = Debug|x86
+		{E76C2A0D-66B2-46A2-B1F6-9AB46B00CFFE}.Release|Any CPU.ActiveCfg = Release|x86
+		{E76C2A0D-66B2-46A2-B1F6-9AB46B00CFFE}.Release|ARM.ActiveCfg = Release|x86
+		{E76C2A0D-66B2-46A2-B1F6-9AB46B00CFFE}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{E76C2A0D-66B2-46A2-B1F6-9AB46B00CFFE}.Release|Mixed Platforms.Build.0 = Release|x86
+		{E76C2A0D-66B2-46A2-B1F6-9AB46B00CFFE}.Release|x64.ActiveCfg = Release|x86
+		{E76C2A0D-66B2-46A2-B1F6-9AB46B00CFFE}.Release|x86.ActiveCfg = Release|x86
+		{E76C2A0D-66B2-46A2-B1F6-9AB46B00CFFE}.Release|x86.Build.0 = Release|x86
+		{9D3E22A5-8A69-4861-A635-C5A0EAC61AA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D3E22A5-8A69-4861-A635-C5A0EAC61AA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D3E22A5-8A69-4861-A635-C5A0EAC61AA3}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{9D3E22A5-8A69-4861-A635-C5A0EAC61AA3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9D3E22A5-8A69-4861-A635-C5A0EAC61AA3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9D3E22A5-8A69-4861-A635-C5A0EAC61AA3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9D3E22A5-8A69-4861-A635-C5A0EAC61AA3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9D3E22A5-8A69-4861-A635-C5A0EAC61AA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D3E22A5-8A69-4861-A635-C5A0EAC61AA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D3E22A5-8A69-4861-A635-C5A0EAC61AA3}.Release|ARM.ActiveCfg = Release|Any CPU
+		{9D3E22A5-8A69-4861-A635-C5A0EAC61AA3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9D3E22A5-8A69-4861-A635-C5A0EAC61AA3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9D3E22A5-8A69-4861-A635-C5A0EAC61AA3}.Release|x64.ActiveCfg = Release|Any CPU
+		{9D3E22A5-8A69-4861-A635-C5A0EAC61AA3}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

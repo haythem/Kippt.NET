@@ -140,6 +140,97 @@ namespace Kippt
         }
 
         /// <summary>
+        /// Returns favorites clips. Both private and public.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="limit">End index.</param>
+        /// <param name="offset">Start index.</param>
+        /// <param name="since">Date filter.</param>
+        public static KipptClipCollection GetFavoriteClips(KipptClient client, int limit = 0, int offset = 0, DateTime? since = null)
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+
+            if (limit > 0) parameters.Add("limit", limit);
+            if (offset > 0) parameters.Add("offset", offset);
+            if (since != null) parameters.Add("since", Utils.ToUnixTime((DateTime)since));
+
+            return client.Api<KipptClipCollection>(ApiCommand.ClipFavorites, HttpMethod.Get, parameters);
+        }
+
+        /// <summary>
+        /// Add clip to favorites.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="clipId">Clip id.</param>
+        public static void FavoriteClip(KipptClient client, int clipId)
+        {
+            client.Api<object>(ApiCommand.FavoriteClip, HttpMethod.Post, clipId);
+        }
+
+        /// <summary>
+        /// Remove clip from favorites.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="clipId">Clip id.</param>
+        public static void UnFavoriteClip(KipptClient client, int clipId)
+        {
+            client.Api<object>(ApiCommand.FavoriteClip, HttpMethod.Delete, clipId);
+        }
+
+        /// <summary>
+        /// Add comment to a clip.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="clipId">Clip id.</param>
+        /// <param name="commentText">Comment text.</param>
+        public static KipptComment AddComment(KipptClient client, int clipId, string commentText)
+        {
+            var comment = new KipptComment();
+
+            comment.Body = commentText;
+
+            return client.Api<KipptComment>(ApiCommand.ClipComments, HttpMethod.Post, JsonHelper.Serialize<KipptComment>(comment), clipId);
+        }
+
+        /// <summary>
+        /// Delete a comment.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="clipId">clip id.</param>
+        /// <param name="commentId">comment id.</param>
+        public static void DeleteComment(KipptClient client, int clipId, int commentId)
+        {
+            client.Api<object>(ApiCommand.DeleteComment, HttpMethod.Delete, clipId, commentId);
+        }
+
+        /// <summary>
+        /// Like clip.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="clipId">Clip id.</param>
+        public static void LikeClip(KipptClient client, int clipId)
+        {
+            client.Api<object>(ApiCommand.ClipLikes, HttpMethod.Post, clipId);
+        }
+
+        /// <summary>
+        /// Unlike a clip.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="clipId">Clip id.</param>
+        public static void UnLikeClip(KipptClient client, int clipId)
+        {
+            client.Api<object>(ApiCommand.ClipLikes, HttpMethod.Delete, clipId);
+        }
+
+        /// <summary>
         /// Returns a collection of clips in a specific list.
         /// </summary>
         /// 
@@ -203,31 +294,31 @@ namespace Kippt
         /// <summary>
         /// Returns a collection of feed items.
         /// </summary>
-        /// <param name="client"></param>
-        /// <returns></returns>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
         public static KipptClipCollection GetFeed(KipptClient client)
         {
             return client.Api<KipptClipCollection>(ApiCommand.Feed, HttpMethod.Get);
         }
 
         /// <summary>
-        /// 
+        /// Returns a collection of feed items.
         /// </summary>
-        /// <param name="client"></param>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
         /// <param name="limit"></param>
-        /// <returns></returns>
         public static KipptClipCollection GetFeed(KipptClient client, int limit)
         {
             return GetFeed(client, limit, 0);
         }
 
         /// <summary>
-        /// 
+        /// Returns a collection of feed items.
         /// </summary>
-        /// <param name="client"></param>
-        /// <param name="limit"></param>
-        /// <param name="offset"></param>
-        /// <returns></returns>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="limit">End index.</param>
+        /// <param name="offset">Start index.</param>
         public static KipptClipCollection GetFeed(KipptClient client, int limit, int offset)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>();
@@ -293,7 +384,7 @@ namespace Kippt
             if (list != null)   parameters.Add("list", list);
             if (isStarred)      parameters.Add("is_starred", "true");
 
-            return client.Api<KipptClipCollection>(ApiCommand.Search, HttpMethod.Get, parameters);
+            return client.Api<KipptClipCollection>(ApiCommand.ClipSearch, HttpMethod.Get, parameters);
         }
     }
 }

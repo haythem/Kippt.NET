@@ -19,6 +19,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Kippt
@@ -51,7 +52,7 @@ namespace Kippt
         /// Gets notification user.
         /// </summary>
         [DataMember(Name = "item")]
-        public KipptAccount User { get; set; }
+        public KipptUser User { get; set; }
 
         /// <summary>
         /// Gets creation date.
@@ -72,5 +73,24 @@ namespace Kippt
         /// </summary>
         [DataMember(Name = "type")]
         public string Type { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a collection of <see cref="KipptNotification"/> entity.
+    /// </summary>
+    [DataContract]
+    public class KipptNotificationCollection
+    {
+        /// <summary>
+        /// Gets pagination informations.
+        /// </summary>
+        [DataMember(Name = "meta")]
+        public KipptMeta Meta { get; set; }
+
+        /// <summary>
+        /// Gets the list of <see cref="KipptNotification"/> objects.
+        /// </summary>
+        [DataMember(Name = "objects")]
+        public List<KipptNotification> Notifications { get; set; }
     }
 }

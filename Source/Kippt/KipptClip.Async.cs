@@ -45,7 +45,7 @@ namespace Kippt
         /// <returns>Created <see cref="KipptClip"/> object.</returns>
         public void CreateAsync(KipptClient client)
         {
-           client.ApiAsync<KipptClip>(ApiCommand.Clips, HttpMethod.Post, JsonHelper.Serialize<KipptClip>(this));
+            client.ApiAsync<KipptClip>(ApiCommand.Clips, HttpMethod.Post, JsonHelper.Serialize<KipptClip>(this));
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Kippt
         /// <returns>Updated <see cref="KipptClip"/> object.</returns>
         public void UpdateAsync(KipptClient client)
         {
-           client.ApiAsync<KipptClip>(ApiCommand.Clip, HttpMethod.Put, JsonHelper.Serialize<KipptClip>(this), Id);
+            client.ApiAsync<KipptClip>(ApiCommand.Clip, HttpMethod.Put, JsonHelper.Serialize<KipptClip>(this), Id);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Kippt
         /// <param name="id">Clip id.</param>
         public static void GetClipAsync(KipptClient client, int id)
         {
-           client.ApiAsync<KipptClip>(ApiCommand.Clip, HttpMethod.Get, id);
+            client.ApiAsync<KipptClip>(ApiCommand.Clip, HttpMethod.Get, id);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Kippt
         /// <param name="since">Specify a start date as a filter.</param>
         public static void GetClipsAsync(KipptClient client, bool isStarred = false, bool isReadLater = false, DateTime? since = null)
         {
-           GetClipsAsync(client, 0, 0, isStarred, isReadLater, since);
+            GetClipsAsync(client, 0, 0, isStarred, isReadLater, since);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Kippt
         /// <param name="since">Specify a start date as a filter.</param>
         public static void GetClipsAsync(KipptClient client, int limit, bool isStarred = false, bool isReadLater = false, DateTime? since = null)
         {
-           GetClipsAsync(client, limit, 0, isStarred, isReadLater, since);
+            GetClipsAsync(client, limit, 0, isStarred, isReadLater, since);
         }
 
         /// <summary>
@@ -136,7 +136,98 @@ namespace Kippt
             if (isReadLater) parameters.Add("is_read_later", "true");
             if (since != null) parameters.Add("since", Utils.ToUnixTime((DateTime)since));
 
-           client.ApiAsync<KipptClipCollection>(ApiCommand.Clips, HttpMethod.Get, parameters);
+            client.ApiAsync<KipptClipCollection>(ApiCommand.Clips, HttpMethod.Get, parameters);
+        }
+
+        /// <summary>
+        /// Returns favorites clips. Both private and public.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="limit">End index.</param>
+        /// <param name="offset">Start index.</param>
+        /// <param name="since">Date filter.</param>
+        public static void GetFavoriteClipsAsync(KipptClient client, int limit = 0, int offset = 0, DateTime? since = null)
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+
+            if (limit > 0) parameters.Add("limit", limit);
+            if (offset > 0) parameters.Add("offset", offset);
+            if (since != null) parameters.Add("since", Utils.ToUnixTime((DateTime)since));
+
+            client.ApiAsync<KipptClipCollection>(ApiCommand.ClipFavorites, HttpMethod.Get, parameters);
+        }
+
+        /// <summary>
+        /// Add clip to favorites.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="clipId">Clip id.</param>
+        public static void FavoriteClipAsync(KipptClient client, int clipId)
+        {
+            client.ApiAsync<object>(ApiCommand.FavoriteClip, HttpMethod.Post, clipId);
+        }
+
+        /// <summary>
+        /// Remove clip from favorites.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="clipId">Clip id.</param>
+        public static void UnFavoriteClipAsync(KipptClient client, int clipId)
+        {
+            client.ApiAsync<object>(ApiCommand.FavoriteClip, HttpMethod.Delete, clipId);
+        }
+
+        /// <summary>
+        /// Add comment to a clip.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="clipId">Clip id.</param>
+        /// <param name="commentText">Comment text.</param>
+        public static void AddCommentAsync(KipptClient client, int clipId, string commentText)
+        {
+            var comment = new KipptComment();
+
+            comment.Body = commentText;
+
+            client.ApiAsync<KipptComment>(ApiCommand.ClipComments, HttpMethod.Post, JsonHelper.Serialize<KipptComment>(comment), clipId);
+        }
+
+        /// <summary>
+        /// Delete a comment.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="clipId">clip id.</param>
+        /// <param name="commentId">comment id.</param>
+        public static void DeleteCommentAsync(KipptClient client, int clipId, int commentId)
+        {
+            client.ApiAsync<object>(ApiCommand.DeleteComment, HttpMethod.Delete, clipId, commentId);
+        }
+
+        /// <summary>
+        /// Like clip.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="clipId">Clip id.</param>
+        public static void LikeClipAsync(KipptClient client, int clipId)
+        {
+            client.ApiAsync<object>(ApiCommand.ClipLikes, HttpMethod.Post, clipId);
+        }
+
+        /// <summary>
+        /// Unlike a clip.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="clipId">Clip id.</param>
+        public static void UnLikeClipAsync(KipptClient client, int clipId)
+        {
+            client.ApiAsync<object>(ApiCommand.ClipLikes, HttpMethod.Delete, clipId);
         }
 
         /// <summary>
@@ -156,7 +247,7 @@ namespace Kippt
         /// <param name="since">Specify a start date as a filter.</param>
         public static void GetClipsByListAsync(KipptClient client, int list, bool isStarred = false, bool isReadLater = false, DateTime? since = null)
         {
-           GetClipsByListAsync(client, list, 0, 0, isStarred, isReadLater, since);
+            GetClipsByListAsync(client, list, 0, 0, isStarred, isReadLater, since);
         }
 
         /// <summary>
@@ -171,7 +262,7 @@ namespace Kippt
         /// <param name="since">Specify a start date as a filter.</param>
         public static void GetClipsByListAsync(KipptClient client, int list, int limit, bool isStarred = false, bool isReadLater = false, DateTime? since = null)
         {
-           GetClipsByListAsync(client, list, limit, 0, isStarred, isReadLater, since);
+            GetClipsByListAsync(client, list, limit, 0, isStarred, isReadLater, since);
         }
 
         /// <summary>
@@ -197,7 +288,46 @@ namespace Kippt
             if (isReadLater) parameters.Add("is_read_later", "true");
             if (since != null) parameters.Add("since", Utils.ToUnixTime((DateTime)since));
 
-           client.ApiAsync<KipptClipCollection>(ApiCommand.Clips, HttpMethod.Get, parameters);
+            client.ApiAsync<KipptClipCollection>(ApiCommand.Clips, HttpMethod.Get, parameters);
+        }
+
+        /// <summary>
+        /// Returns a collection of feed items.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        public static void GetFeedAsync(KipptClient client)
+        {
+            client.ApiAsync<KipptClipCollection>(ApiCommand.Feed, HttpMethod.Get);
+        }
+
+        /// <summary>
+        /// Returns a collection of feed items.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="limit"></param>
+        public static void GetFeedAsync(KipptClient client, int limit)
+        {
+            GetFeedAsync(client, limit, 0);
+        }
+
+        /// <summary>
+        /// Returns a collection of feed items.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="limit">End index.</param>
+        /// <param name="offset">Start index.</param>
+        public static void GetFeedAsync(KipptClient client, int limit, int offset)
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+
+            parameters.Add("limit", limit);
+
+            if (offset > 0) parameters.Add("offset", offset);
+
+            client.ApiAsync<KipptClipCollection>(ApiCommand.Feed, HttpMethod.Get, parameters);
         }
 
         /// <summary>
@@ -216,7 +346,7 @@ namespace Kippt
         /// <param name="isStarred">Filter clips by returning only starred ones.</param>
         public static void SearchAsync(KipptClient client, string query, int? list = null, bool isStarred = false)
         {
-           SearchAsync(client, query, 0, 0, list, isStarred);
+            SearchAsync(client, query, 0, 0, list, isStarred);
         }
 
         /// <summary>
@@ -230,7 +360,7 @@ namespace Kippt
         /// <param name="isStarred">Filter clips by returning only starred ones.</param>
         public static void SearchAsync(KipptClient client, string query, int limit, int? list = null, bool isStarred = false)
         {
-           SearchAsync(client, query, limit, 0, list, isStarred);
+            SearchAsync(client, query, limit, 0, list, isStarred);
         }
 
         /// <summary>
@@ -254,7 +384,7 @@ namespace Kippt
             if (list != null) parameters.Add("list", list);
             if (isStarred) parameters.Add("is_starred", "true");
 
-           client.ApiAsync<KipptClipCollection>(ApiCommand.Search, HttpMethod.Get, parameters);
+            client.ApiAsync<KipptClipCollection>(ApiCommand.ClipSearch, HttpMethod.Get, parameters);
         }
     }
 }

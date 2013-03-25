@@ -65,22 +65,13 @@ namespace Kippt
         /// Gets or sets list owner.
         /// </summary>
         [DataMember(Name = "user")]
-        public string UserUri { get; set; }
-
-        /// <summary>
-        /// Gets or sets clip user id.
-        /// </summary>
-        public int UserId
-        {
-            get { return int.Parse(UserUri.Substring(UserUri.IndexOf("/api/users/"), UserUri.Length - UserUri.IndexOf("/api/users/"))); }
-            set { UserUri = string.Format("/api/users/{0}/", value); }
-        }
+        public KipptUser User { get; set; }
 
         /// <summary>
         /// Gets or sets list collaborators.
         /// </summary>
         [DataMember(Name = "collaborators")]
-        public List<KipptAccount> Collaborators { get; set; }
+        public KipptCollaborators Collaborators { get; set; }
 
         /// <summary>
         /// Gets list creation date (Unix Time).
@@ -133,5 +124,40 @@ namespace Kippt
         /// </summary>
         [DataMember(Name = "rss_url")]
         public string RssUrl { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a collection of <see cref="KipptList"/> entity.
+    /// </summary>
+    [DataContract]
+    public class KipptListCollection
+    {
+        /// <summary>
+        /// Gets pagination informations.
+        /// </summary>
+        [DataMember(Name = "meta")]
+        public KipptMeta Meta { get; set; }
+
+        /// <summary>
+        /// Gets the list of <see cref="KipptList"/> objects.
+        /// </summary>
+        [DataMember(Name = "objects")]
+        public List<KipptList> Lists { get; set; }
+    }
+
+    [DataContract]
+    public class KipptCollaborators
+    {
+        /// <summary>
+        /// Gets users count.
+        /// </summary>
+        [DataMember(Name = "count")]
+        public int Count { get; set; }
+
+        /// <summary>
+        /// Gets users.
+        /// </summary>
+        [DataMember(Name = "data")]
+        public List<KipptUser> Users { get; set; }
     }
 }

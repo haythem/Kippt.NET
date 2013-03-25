@@ -27,24 +27,58 @@ namespace Kippt
     /// </summary>
     public enum ApiCommand
     {
-        Feed,
-
         Account,
 
         User,
+
+        UserFollowings,
+
+        UserFollowers,
+
+        UserRelationship,
+
+        UserLists,
+
+        UserList,
+
+        UserClips,
+
+        UserFavoriteClips,
+
+        UserLikeClips,
+
+        UserSearch,
 
         Lists,
 
         List,
 
+        ListFollowings,
+
+        ListRelationship,
+
+        ListClips,
+
+        ListSearch,
+
         Clips,
+
+        ClipFavorites,
 
         Clip,
 
-        Search,
+        FavoriteClip,
+
+        ClipComments,
+
+        DeleteComment,
+
+        ClipLikes,
+
+        ClipSearch,
+
+        Feed,
 
         Notifications,
-
-        Logout
     }
 }

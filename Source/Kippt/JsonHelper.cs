@@ -65,6 +65,10 @@ namespace Kippt
         {
             MemoryStream stream = new MemoryStream(Encoding.Unicode.GetBytes(json));
 
+            // When dealing with large amount of data, stream position must be set to 0.
+            // Thanks to Ali Adravi http://www.advancesharp.com/Questions/146/expecting-state-element-encountered-text-with-name-namespace
+            stream.Position = 0;
+
             DataContractJsonSerializer deserializer = new DataContractJsonSerializer(typeof(T));
 
             T result = (T)deserializer.ReadObject(stream);

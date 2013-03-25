@@ -40,7 +40,7 @@ namespace Kippt
         /// <returns>Created <see cref="KipptList"/> instance.</returns>
         public void CreateAsync(KipptClient client)
         {
-            client.ApiAsync<KipptList>(ApiCommand.List, HttpMethod.Post, JsonHelper.Serialize<KipptList>(this));
+            client.ApiAsync<KipptList>(ApiCommand.Lists, HttpMethod.Post, JsonHelper.Serialize<KipptList>(this));
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Kippt
         /// <returns>Updated <see cref="KipptList"/> instance.</returns>
         public void UpdateAsync(KipptClient client)
         {
-            client.ApiAsync<KipptList>(ApiCommand.List, HttpMethod.Put, JsonHelper.Serialize<KipptList>(this));
+            client.ApiAsync<KipptList>(ApiCommand.List, HttpMethod.Put, JsonHelper.Serialize<KipptList>(this), this.Id);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Kippt
         /// <param name="client"><see cref="KipptClient"/> instance.</param>
         public void DeleteAsync(KipptClient client)
         {
-            client.ApiAsync<KipptList>(ApiCommand.List, HttpMethod.Delete, Id);
+            client.ApiAsync<KipptList>(ApiCommand.List, HttpMethod.Delete, this.Id);
         }
 
         #endregion Public Methods
@@ -91,7 +91,7 @@ namespace Kippt
         /// </summary>
         /// 
         /// <param name="client"><see cref="KipptClient"/> instance.</param>
-        /// <param name="limit">Page size.</param>
+        /// <param name="limit">End index.</param>
         /// <param name="scopes">List of scopes.</param>
         public static void GetListsAsync(KipptClient client, int limit)
         {
@@ -103,7 +103,7 @@ namespace Kippt
         /// </summary>
         /// 
         /// <param name="client"><see cref="KipptClient"/> instance.</param>
-        /// <param name="limit">Page size.</param>
+        /// <param name="limit">End index.</param>
         /// <param name="offset">Start index.</param>
         /// <param name="scopes">List of scopes.</param>
         public static void GetListsAsync(KipptClient client, int limit, int offset)
@@ -117,6 +117,24 @@ namespace Kippt
         }
 
         /// <summary>
+        /// Returns lists of a user
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="userId">User id.</param>
+        /// <param name="limit">End index.</param>
+        /// <param name="offset">Start index.</param>
+        public static void GetUserListsAsync(KipptClient client, int userId, int limit = 0, int offset = 0)
+        {
+            var parameters = new Dictionary<string, object>();
+
+            if (limit > 0) parameters.Add("limit", limit);
+            if (offset > 0) parameters.Add("offset", offset);
+
+            client.ApiAsync<KipptListCollection>(ApiCommand.UserLists, HttpMethod.Get, parameters, userId);
+        }
+
+        /// <summary>
         /// Returns a list by its id.
         /// </summary>
         /// 
@@ -126,6 +144,77 @@ namespace Kippt
         public static void GetListAsync(KipptClient client, int id)
         {
             client.ApiAsync<KipptList>(ApiCommand.List, HttpMethod.Get, id);
+        }
+
+        /// <summary>
+        /// Returns list of users following a list.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="listId">List id.</param>
+        /// <param name="limit">End index.</param>
+        /// <param name="offset">Start index.</param>
+        public static void GetListFollowingsAsync(KipptClient client, int listId, int limit = 0, int offset = 0)
+        {
+            var parameters = new Dictionary<string, object>();
+
+            if (limit > 0) parameters.Add("limit", limit);
+            if (offset > 0) parameters.Add("offset", offset);
+
+            client.ApiAsync<KipptUserCollection>(ApiCommand.ListFollowings, HttpMethod.Get, parameters);
+        }
+
+        /// <summary>
+        /// Checks whether the logged in user is following a list.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="listId">List id.</param>        
+        public static void IsFollowingAsync(KipptClient client, int listId)
+        {
+            client.ApiAsync<KipptRelationship>(ApiCommand.ListRelationship, HttpMethod.Get, listId);
+        }
+
+        /// <summary>
+        /// Follow a list.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="listId">List id.</param>
+        public static void FollowListAsync(KipptClient client, int listId)
+        {
+            client.ApiAsync<KipptRelationship>(ApiCommand.ListRelationship, HttpMethod.Post, JsonHelper.Serialize<KipptAction>(new KipptAction("follow")), listId);
+        }
+
+        /// <summary>
+        /// Unfollow a list.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="listId">List id.</param>
+        public static void UnFollowListAsync(KipptClient client, int listId)
+        {
+            client.ApiAsync<KipptRelationship>(ApiCommand.ListRelationship, HttpMethod.Post, JsonHelper.Serialize<KipptAction>(new KipptAction("unfollow")), listId);
+        }
+
+        /// <summary>
+        /// Search for a list.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        /// <param name="query">Query.</param>
+        /// <param name="limit">End index.</param>
+        /// <param name="offset">Start index.</param>
+        public static void SearchAsync(KipptClient client, string query, int limit = 0, int offset = 0)
+        {
+            var parameters = new Dictionary<string, object>();
+
+            parameters.Add("q", query);
+
+            if (limit > 0) parameters.Add("limit", limit);
+            if (offset > 0) parameters.Add("offset", offset);
+
+            client.ApiAsync<KipptListCollection>(ApiCommand.ListSearch, HttpMethod.Get, parameters);
         }
 
         #endregion Shared Methods

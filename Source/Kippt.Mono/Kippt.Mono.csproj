@@ -44,12 +44,6 @@
     <Compile Include="..\Kippt\JsonHelper.cs">
       <Link>JsonHelper.cs</Link>
     </Compile>
-    <Compile Include="..\Kippt\KipptAccount.cs">
-      <Link>KipptAccount.cs</Link>
-    </Compile>
-    <Compile Include="..\Kippt\KipptAccount.Sync.cs">
-      <Link>KipptAccount.Sync.cs</Link>
-    </Compile>
     <Compile Include="..\Kippt\KipptClient.Async.cs">
       <Link>KipptClient.Async.cs</Link>
     </Compile>
@@ -68,23 +62,11 @@
     <Compile Include="..\Kippt\KipptClip.Sync.cs">
       <Link>KipptClip.Sync.cs</Link>
     </Compile>
-    <Compile Include="..\Kippt\KipptClipCollection.cs">
-      <Link>KipptClipCollection.cs</Link>
-    </Compile>
-    <Compile Include="..\Kippt\KipptComment.cs">
-      <Link>KipptComment.cs</Link>
-    </Compile>
-    <Compile Include="..\Kippt\KipptCommentCollection.cs">
-      <Link>KipptCommentCollection.cs</Link>
-    </Compile>
     <Compile Include="..\Kippt\KipptEventArgs.cs">
       <Link>KipptEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\Kippt\KipptException.cs">
       <Link>KipptException.cs</Link>
-    </Compile>
-    <Compile Include="..\Kippt\KipptLikeCollection.cs">
-      <Link>KipptLikeCollection.cs</Link>
     </Compile>
     <Compile Include="..\Kippt\KipptList.Async.cs">
       <Link>KipptList.Async.cs</Link>
@@ -94,9 +76,6 @@
     </Compile>
     <Compile Include="..\Kippt\KipptList.Sync.cs">
       <Link>KipptList.Sync.cs</Link>
-    </Compile>
-    <Compile Include="..\Kippt\KipptListCollection.cs">
-      <Link>KipptListCollection.cs</Link>
     </Compile>
     <Compile Include="..\Kippt\KipptMeta.cs">
       <Link>KipptMeta.cs</Link>
@@ -110,11 +89,14 @@
     <Compile Include="..\Kippt\KipptNotification.Sync.cs">
       <Link>KipptNotification.Sync.cs</Link>
     </Compile>
-    <Compile Include="..\Kippt\KipptNotificationCollection.cs">
-      <Link>KipptNotificationCollection.cs</Link>
+    <Compile Include="..\Kippt\KipptUser.Async.cs">
+      <Link>KipptUser.Async.cs</Link>
     </Compile>
-    <Compile Include="..\Kippt\KipptSaveCollection.cs">
-      <Link>KipptSaveCollection.cs</Link>
+    <Compile Include="..\Kippt\KipptUser.cs">
+      <Link>KipptUser.cs</Link>
+    </Compile>
+    <Compile Include="..\Kippt\KipptUser.Sync.cs">
+      <Link>KipptUser.Sync.cs</Link>
     </Compile>
     <Compile Include="..\Kippt\Utils.cs">
       <Link>Utils.cs</Link>

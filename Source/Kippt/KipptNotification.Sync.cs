@@ -62,6 +62,16 @@ namespace Kippt
             if (offset > 0) parameters.Add("offset", offset);
 
             return client.Api<KipptNotificationCollection>(ApiCommand.Notifications, HttpMethod.Get, parameters);
-        } 
+        }
+
+        /// <summary>
+        /// Mark all notifications as seen.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        public static void MarkNotificationsAsSeen(KipptClient client)
+        {
+            client.Api<object>(ApiCommand.Notifications, HttpMethod.Post, JsonHelper.Serialize<KipptAction>(new KipptAction("mark_seen")));
+        }
     }
 }

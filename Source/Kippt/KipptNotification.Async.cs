@@ -63,5 +63,15 @@ namespace Kippt
 
             client.ApiAsync<KipptNotificationCollection>(ApiCommand.Notifications, HttpMethod.Get, parameters);
         }
+
+        /// <summary>
+        /// Mark all notifications as seen.
+        /// </summary>
+        /// 
+        /// <param name="client"><see cref="KipptClient"/> instance.</param>
+        public static void MarkNotificationsAsSeenAsync(KipptClient client)
+        {
+            client.ApiAsync<object>(ApiCommand.Notifications, HttpMethod.Post, JsonHelper.Serialize<KipptAction>(new KipptAction("mark_seen")));
+        }
     }
 }

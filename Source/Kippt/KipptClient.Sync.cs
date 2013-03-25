@@ -97,7 +97,7 @@ namespace Kippt
         /// <param name="segments">Uri segments.</param>
         public T Api<T>(ApiCommand command, HttpMethod method, Dictionary<string, object> parameters, params object[] segments)
         {
-            return Api<T>(Endpoints[command], method, null, null, segments);
+            return Api<T>(Endpoints[command], method, null, parameters, segments);
         }
 
         /// <summary>
@@ -125,6 +125,8 @@ namespace Kippt
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
 
+            request.Method = method.ToString().ToUpper();
+
             // Authentication Process
             if (uri.AbsolutePath == Endpoints[ApiCommand.Account].AbsolutePath && parameters != null)
             {
@@ -137,7 +139,7 @@ namespace Kippt
                 request.Headers.Add("X-Kippt-Client", "Kippt.NET, haythem.tlili@live.com, http://haythem.github.com/Kippt.NET/");
             }
 
-            if (method == HttpMethod.Post || method == HttpMethod.Put)
+            if (data != null && (method == HttpMethod.Post || method == HttpMethod.Put))
             {
                 StreamWriter writer = new StreamWriter(request.GetRequestStream());
 
@@ -160,7 +162,7 @@ namespace Kippt
                         json = reader.ReadToEnd();
                     }
 
-                    return JsonHelper.Deserialize<T>(json);
+                    return !string.IsNullOrEmpty(json) ? JsonHelper.Deserialize<T>(json) : default(T);
                 }
                 else
                 {
